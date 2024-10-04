@@ -177,18 +177,22 @@ Last Name:  ${item.lastName}
         console.log(datastream);
         message.reply(`
 ----------------------------------------
-Project name: ${datastream.name}
+Project name: ${capitalizeFirstLetter(datastream.name)}
 Max members: ${datastream.attrs.groupMax}
 Min members: ${datastream.attrs.groupMin}
 Min audit ratio: ${datastream.attrs.requiredAuditRatio}
 Experience: ${datastream.attrs.baseXp / 1000 + 'kb'}
-Requirements to start: ${datastream.attrs.requirements.objects[0]}
+Required previous project: ${capitalizeFirstLetter(
+          datastream.attrs.requirements.objects[0].split('/')[1]
+        )}
 User audits requirement: ${datastream.attrs.validations[0].required} out of ${
           datastream.attrs.validations[0].required *
           datastream.attrs.validations[0].ratio
         }
 Language requirement: ${datastream.attrs.language}
-Project description: https://01.kood.tech${datastream.attrs.subject}
+Project description: [click here](https://01.kood.tech${
+          datastream.attrs.subject
+        })
 ----------------------------------------`);
       } catch (error) {
         message.reply('Wrong project name!');
