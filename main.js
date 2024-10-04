@@ -6,75 +6,12 @@ import hasAuthorization from './HasAuthorization/hasAuthorization.js';
 import restrictToChannels from './RestrictToChannels/restrictToChannels.js';
 import fetchToken from './AuthToken/authToken.js';
 import capitalizeFirstLetter from './Helpers/capitalize.js';
+import getSprintData from './FetchData/getSprintData.js';
+import getUserData from './FetchData/getUserData.js';
+import getUserName from './FetchData/getUserName.js';
 
 // init token
 const token = await fetchToken();
-
-// fetch sprint data
-const getData = async (eventId) => {
-  // const token = await fetchToken();
-  const response = await fetch(
-    'https://01.kood.tech/api/graphql-engine/v1/graphql',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-      body: JSON.stringify({
-        query: `query querySprinters {
-  event_by_pk(id:${eventId}){
-    path
-    startAt
-    registrations{
-      users{
-        id
-      }
-    }
-    usersRelation{
-      userLogin
-      level
-    }
-  }
-}`,
-      }),
-    }
-  );
-  return await response.json();
-};
-
-// fetch user data
-
-const getUserData = async (userId) => {
-  // const token = await fetchToken();
-  const response = await fetch(
-    'https://01.kood.tech/api/graphql-engine/v1/graphql',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-      body: JSON.stringify({
-        query: `query {
-  user_public_view(where:{id: {_in: [${userId}]}}){
-    id
-    login
-    firstName
-    lastName
-    events{
-      level
-      event{
-        path
-      }
-    }
-  }
-}`,
-      }),
-    }
-  );
-  return await response.json();
-};
 
 // bot
 
@@ -89,7 +26,7 @@ client.on('ready', () => {
 client.on('messageCreate', async (message) => {
   // restrictions, bot, channel, command, user:
   if (message.author.bot) return;
-  if (!restrictToChannels(message)) return;
+  // if (!restrictToChannels(message)) return;
   if (!message.content.startsWith('!')) return;
   if (!hasAuthorization(message)) return;
 
@@ -98,14 +35,15 @@ client.on('messageCreate', async (message) => {
   const command = args.shift().toLowerCase();
 
   switch (command) {
+    // sprint command, needs eventId: returns
     case 'sprint':
       let eventId = args.shift();
       if (eventId == undefined) {
-        message.reply('Please enter the eventId as well!');
+        message.reply('Please enter a valid eventId as well!');
         break;
       }
       try {
-        const data = await getData(eventId);
+        const data = await getSprintData(token, eventId);
         let queryLength = data?.data?.event_by_pk?.path.split('/');
         let returnData;
         if (queryLength.length == 5) {
@@ -137,15 +75,11 @@ client.on('messageCreate', async (message) => {
           break;
         }
       } catch (error) {
-        message.reply('An error occurred while fetching sprint data.');
+        message.reply('Invalid EventId provided.');
         console.error(error);
       }
       break;
-    case 'user':
-      if (message.author.id != '552485072880533507') {
-        message.reply('Not authorized!');
-        return;
-      }
+    case 'userid':
       let userId = args.shift();
       if (userId == undefined) {
         message.reply('Please enter userId to query!');
@@ -155,13 +89,13 @@ client.on('messageCreate', async (message) => {
         let returnData = `
         Received user data:
 ----------------------------------`;
-        const data = await getUserData(userId);
+        const data = await getUserData(token, userId);
         let userData = data?.data?.user_public_view[0];
         returnData += `
-ID: ${userData.id}
-Login: ${userData.login}
+ID:         ${userData.id}
+Login:      ${userData.login}
 First Name: ${userData.firstName}
-Last Name: ${userData.lastName}
+Last Name:  ${userData.lastName}
 ----------------------------------\n`;
         returnData += `Gained levels in modules:
 ----------------------------------\n`;
@@ -178,9 +112,48 @@ Last Name: ${userData.lastName}
         });
         message.reply(returnData);
       } catch (error) {
-        message.reply('An error occurred while fetching user data.');
+        message.reply('Invalid UserId provided.');
         console.error(error);
       }
+      break;
+    case 'name':
+      let firstName = args.shift();
+      let lastName = args.shift();
+      if (firstName == undefined) {
+        message.reply('Please enter a name to Query');
+      }
+      try {
+        let returnData = `
+        Received user data:
+----------------------------------`;
+        const data = await getUserName(token, firstName, lastName);
+        if (data.errors != undefined) {
+          message.reply(
+            'Query did not succeed, please provide different name!'
+          );
+          console.log('DATA: ', data.errors);
+          return;
+        }
+        console.log('DATA: ', data);
+
+        data?.data?.user_public_view.forEach((item) => {
+          returnData += `
+ID:         ${item.id}
+Login:      ${item.login}
+First Name: ${item.firstName}
+Last Name:  ${item.lastName}
+---------------------`;
+        });
+
+        message.reply(returnData);
+      } catch (error) {
+        message.reply(
+          'Query did not succeed, please provide a Last name as well!'
+        );
+        console.error(error);
+      }
+      break;
+
       break;
     case 'kiitus':
       let name = args.shift();
@@ -192,7 +165,10 @@ ${name} sa oled nii tubli! ;)`;
     case 'help':
       let helpMessage = `
 WIP
-!sprint <id> to get the current sprinters data`;
+!sprint <id> to get the current sprinters data
+!userid <id> to get user data with the given id
+!user <name> to get all user with the given first name
+!user <name> <lastname> to get user with the name and lastname`;
 
       message.reply(`\`\`\`${helpMessage}\`\`\``);
       break;
