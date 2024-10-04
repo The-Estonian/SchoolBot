@@ -13,8 +13,17 @@ import getUserName from './FetchData/getUserName.js';
 // init token
 const token = await fetchToken();
 
-// bot
+const getProjectInfo = async () => {
+  const response = await fetch('https://01.kood.tech/api/object/johvi', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return await response.json();
+};
 
+// bot
 const client = new Client({
   intents: ['Guilds', 'GuildMessages', 'MessageContent'],
 });
@@ -28,7 +37,7 @@ client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
   // if (!restrictToChannels(message)) return;
   if (!message.content.startsWith('!')) return;
-  if (!hasAuthorization(message)) return;
+  // if (!hasAuthorization(message)) return;
 
   // command list
   const args = message.content.slice(1).trim().split(/ +/);
@@ -154,6 +163,37 @@ Last Name:  ${item.lastName}
       }
       break;
 
+    // get project info
+    case 'project':
+      let projectName = args.shift();
+      if (projectName == undefined) {
+        message.reply('Please enter project name!');
+        break;
+      }
+      try {
+        const data = await getProjectInfo();
+
+        let datastream = data.children['div-01'].children[projectName];
+        console.log(datastream);
+        message.reply(`
+----------------------------------------
+Project name: ${datastream.name}
+Max members: ${datastream.attrs.groupMax}
+Min members: ${datastream.attrs.groupMin}
+Min audit ratio: ${datastream.attrs.requiredAuditRatio}
+Experience: ${datastream.attrs.baseXp / 1000 + 'kb'}
+Requirements to start: ${datastream.attrs.requirements.objects[0]}
+User audits requirement: ${datastream.attrs.validations[0].required} out of ${
+          datastream.attrs.validations[0].required *
+          datastream.attrs.validations[0].ratio
+        }
+Language requirement: ${datastream.attrs.language}
+Project description: https://01.kood.tech${datastream.attrs.subject}
+----------------------------------------`);
+      } catch (error) {
+        message.reply('Wrong project name!');
+        console.log(error);
+      }
       break;
     case 'kiitus':
       let name = args.shift();
@@ -168,7 +208,8 @@ WIP
 !sprint <id> to get the current sprinters data
 !userid <id> to get user data with the given id
 !user <name> to get all user with the given first name
-!user <name> <lastname> to get user with the name and lastname`;
+!user <name> <lastname> to get user with the name and lastname
+!project <name> to get project info`;
 
       message.reply(`\`\`\`${helpMessage}\`\`\``);
       break;
