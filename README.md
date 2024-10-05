@@ -8,7 +8,16 @@ This is a personal project and only to be used by K/J members/staff.
 
 NB: User auth needed for the project to work.
 
-Command list:
+## Table of Contents
+
+- [Command List](#commandlist)
+- [Screenshot Link](#screenshot)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Authors](#authors)
+
+## Command list
 
 ```bash
 ┌─────────────────────────────┬───────────────────────────────────────────┐
@@ -27,14 +36,6 @@ Command list:
 │ !project <name>             │ to get project info                       │
 └─────────────────────────────┴───────────────────────────────────────────┘
 ```
-
-## Table of Contents
-
-- [Screenshot Link](#screenshot)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-- [Authors](#authors)
 
 ## Screenshots
 
