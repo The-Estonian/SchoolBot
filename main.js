@@ -174,26 +174,68 @@ Last Name:  ${item.lastName}
         const data = await getProjectInfo();
 
         let datastream = data.children['div-01'].children[projectName];
-        console.log(datastream);
-        message.reply(`
-----------------------------------------
-Project name: ${capitalizeFirstLetter(datastream.name)}
-Max members: ${datastream.attrs.groupMax}
-Min members: ${datastream.attrs.groupMin}
-Min audit ratio: ${datastream.attrs.requiredAuditRatio}
-Experience: ${datastream.attrs.baseXp / 1000 + 'kb'}
-Required previous project: ${capitalizeFirstLetter(
+
+        let projLabel = capitalizeFirstLetter(datastream.name);
+        let groupMax = datastream.attrs.groupMax;
+        let groupMin = datastream.attrs.groupMin;
+        let auditRatio = datastream.attrs.requiredAuditRatio;
+        let expGained = datastream.attrs.baseXp / 1000 + 'kb';
+        let prevProj = capitalizeFirstLetter(
           datastream.attrs.requirements.objects[0].split('/')[1]
-        )}
-User audits requirement: ${datastream.attrs.validations[0].required} out of ${
+        );
+        let auditReq = `${datastream.attrs.validations[0].required} out of ${
           datastream.attrs.validations[0].required *
           datastream.attrs.validations[0].ratio
-        }
-Language requirement: ${datastream.attrs.language}
-Project description: [click here](https://01.kood.tech${
-          datastream.attrs.subject
-        })
-----------------------------------------`);
+        }`;
+        let projLanguage = datastream.attrs.language;
+        let spacer = Math.max(
+          projLabel.length,
+          groupMax.toString().length,
+          groupMin.toString().length,
+          auditRatio.toString().length,
+          expGained.length,
+          prevProj.length,
+          auditReq.length,
+          projLanguage.length
+        );
+        if (spacer < 15) spacer = 15;
+        let strecher = 0;
+        if (spacer > 15) strecher = spacer - 15;
+
+        message.reply(`\`\`\`
+┌────────────────────────────┬────────────────${'─'.repeat(strecher)}┐
+│ Project name:              │ ${projLabel}${' '.repeat(
+          spacer - projLabel.length
+        )}│
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ Max members:               │ ${groupMax}${' '.repeat(
+          spacer - groupMax.toString().length
+        )}│
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ Min members:               │ ${groupMin}${' '.repeat(
+          spacer - groupMin.toString().length
+        )}│
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ Min audit ratio:           │ ${auditRatio}${' '.repeat(
+          spacer - auditRatio.toString().length
+        )}│
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ Experience:                │ ${expGained}${' '.repeat(
+          spacer - expGained.length
+        )}│
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ Required previous project: │ ${prevProj}${' '.repeat(
+          spacer - prevProj.length
+        )}│
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ User audits requirement:   │ ${auditReq}${' '.repeat(
+          spacer - auditReq.length
+        )}│
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ Language requirement:      │ ${projLanguage}${' '.repeat(
+          spacer - projLanguage.length
+        )}│
+└────────────────────────────┴────────────────${'─'.repeat(strecher)}┘\`\`\``);
       } catch (error) {
         message.reply('Wrong project name!');
         console.log(error);
