@@ -14,11 +14,11 @@ Created discord bot for simple school GraphQL fetches.
 
 ## Screenshots
 
-![Project Screenshot](1.png)
-![Project Screenshot](2.png)
-![Project Screenshot](3.png)
-![Project Screenshot](4.png)
-![Project Screenshot](5.png)
+![Project Screenshot](images/1.png)
+![Project Screenshot](images/2.png)
+![Project Screenshot](images/3.png)
+![Project Screenshot](images/4.png)
+![Project Screenshot](images/5.png)
 
 ## Contributing
 
