@@ -5,11 +5,14 @@ dotenv.config();
 import hasAuthorization from './HasAuthorization/hasAuthorization.js';
 import restrictToChannels from './RestrictToChannels/restrictToChannels.js';
 import fetchToken from './AuthToken/authToken.js';
-import capitalizeFirstLetter from './Helpers/capitalize.js';
 import getSprintData from './FetchData/getSprintData.js';
 import getUserData from './FetchData/getUserData.js';
 import getUserName from './FetchData/getUserName.js';
 import truncateForDiscord from './Helpers/truncMessage.js';
+import parseUserNameData from './parsers/ParseUserNameData.js';
+import parseUserIdData from './parsers/ParseUserIdData.js';
+import parseProjectInfo from './parsers/ParseProjectInfo.js';
+import parseSprintData from './parsers/ParseSprintData.js';
 
 // init token
 const token = await fetchToken();
@@ -45,7 +48,7 @@ client.on('messageCreate', async (message) => {
   const command = args.shift().toLowerCase();
 
   switch (command) {
-    // sprint command, needs eventId: returns
+    // sprint
     case 'sprint':
       let eventId = args.shift();
       if (eventId == undefined) {
@@ -54,32 +57,10 @@ client.on('messageCreate', async (message) => {
       }
       try {
         const data = await getSprintData(token, eventId);
-        let queryLength = data?.data?.event_by_pk?.path.split('/');
-        let returnData;
-        if (queryLength.length == 5) {
-          returnData = data?.data?.event_by_pk?.path.split('/')[4];
-        } else {
-          returnData = data?.data?.event_by_pk?.path.split('/')[3];
-        }
-        let returnString = capitalizeFirstLetter(returnData) + '\n';
-        const date = new Date(data?.data?.event_by_pk?.startAt);
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-        returnString +=
-          'Starting at: ' + date.toLocaleDateString('en-GB', options) + '\n';
-        if (data?.data?.event_by_pk?.usersRelation.length == 0) {
-          returnString += 'Currently registered users: \n';
+        const response = parseSprintData(data);
 
-          data?.data?.event_by_pk?.registrations[0]?.users?.forEach(
-            (element) => {
-              returnString += element.id + '\n';
-            }
-          );
-        }
-        data?.data?.event_by_pk?.usersRelation.forEach((element) => {
-          returnString += element.userLogin + ': level ' + element.level + '\n';
-        });
-        if (returnString.length > 0) {
-          message.reply(returnString);
+        if (response.length > 0) {
+          message.reply(response);
         } else {
           message.reply('Event not found!');
           break;
@@ -96,31 +77,9 @@ client.on('messageCreate', async (message) => {
         break;
       }
       try {
-        let returnData = `
-        Received user data:
-----------------------------------`;
         const data = await getUserData(token, userId);
-        let userData = data?.data?.user_public_view[0];
-        returnData += `
-ID:         ${userData.id}
-Login:      ${userData.login}
-First Name: ${userData.firstName}
-Last Name:  ${userData.lastName}
-----------------------------------\n`;
-        returnData += `Gained levels in modules:
-----------------------------------\n`;
-        userData.events.forEach((row) => {
-          if (row.level > 0) {
-            let path = row.event.path.split('/');
-            path = path[path.length - 1];
-            if (path == 'div-01') {
-              path = 'Kood / Jõhvi';
-            }
-            path = capitalizeFirstLetter(path);
-            returnData += path + ' ' + 'level: ' + row.level + '\n';
-          }
-        });
-        message.reply(returnData);
+        const response = parseUserIdData(data);
+        message.reply(response);
       } catch (error) {
         message.reply('Invalid UserId provided.');
         console.error(error);
@@ -134,29 +93,9 @@ Last Name:  ${userData.lastName}
         return;
       }
       try {
-        let returnData = `
-        Received user data:
-----------------------------------`;
         const data = await getUserName(token, firstName, lastName);
-        if (data.errors != undefined) {
-          message.reply(
-            'Query did not succeed, please provide different name!'
-          );
-          console.log('DATA: ', data.errors);
-          return;
-        }
-        console.log('DATA: ', data);
-
-        data?.data?.user_public_view.forEach((item) => {
-          returnData += `
-ID:         ${item.id}
-Login:      ${item.login}
-First Name: ${item.firstName}
-Last Name:  ${item.lastName}
----------------------`;
-        });
-
-        message.reply(truncateForDiscord(returnData));
+        const response = parseUserNameData(data);
+        message.reply(truncateForDiscord(response));
       } catch (error) {
         message.reply(
           'Query did not succeed, please provide a Last name as well!'
@@ -165,7 +104,7 @@ Last Name:  ${item.lastName}
       }
       break;
 
-    // get project info
+    // project
     case 'project':
       let projectName = args.shift();
       if (projectName == undefined) {
@@ -174,92 +113,25 @@ Last Name:  ${item.lastName}
       }
       try {
         const data = await getProjectInfo();
-
-        let datastream = data.children['div-01'].children[projectName];
-
-        let projLabel = capitalizeFirstLetter(datastream.name);
-        let groupMax = datastream.attrs.groupMax;
-        let groupMin = datastream.attrs.groupMin;
-        let auditRatio = datastream.attrs.requiredAuditRatio;
-        let expGained = datastream.attrs.baseXp / 1000 + 'kb';
-        let prevProj = capitalizeFirstLetter(
-          datastream.attrs.requirements.objects[0].split('/')[1]
-        );
-        let auditReq = `${datastream.attrs.validations[0].required} out of ${
-          datastream.attrs.validations[0].required *
-          datastream.attrs.validations[0].ratio
-        }`;
-        let projLanguage = datastream.attrs.language;
-        let spacer = Math.max(
-          projLabel.length,
-          groupMax.toString().length,
-          groupMin.toString().length,
-          auditRatio.toString().length,
-          expGained.length,
-          prevProj.length,
-          auditReq.length,
-          projLanguage.length
-        );
-        if (spacer < 15) spacer = 15;
-        let strecher = 0;
-        if (spacer > 15) strecher = spacer - 15;
-
-        message.reply(`\`\`\`
-┌────────────────────────────┬────────────────${'─'.repeat(strecher)}┐
-│ Project name:              │ ${projLabel}${' '.repeat(
-          spacer - projLabel.length
-        )}│
-├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ Max members:               │ ${groupMax}${' '.repeat(
-          spacer - groupMax.toString().length
-        )}│
-├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ Min members:               │ ${groupMin}${' '.repeat(
-          spacer - groupMin.toString().length
-        )}│
-├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ Min audit ratio:           │ ${auditRatio}${' '.repeat(
-          spacer - auditRatio.toString().length
-        )}│
-├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ Experience:                │ ${expGained}${' '.repeat(
-          spacer - expGained.length
-        )}│
-├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ Required previous project: │ ${prevProj}${' '.repeat(
-          spacer - prevProj.length
-        )}│
-├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ User audits requirement:   │ ${auditReq}${' '.repeat(
-          spacer - auditReq.length
-        )}│
-├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ Language requirement:      │ ${projLanguage}${' '.repeat(
-          spacer - projLanguage.length
-        )}│
-└────────────────────────────┴────────────────${'─'.repeat(strecher)}┘\`\`\``);
+        const response = parseProjectInfo(data);
+        message.reply(response);
       } catch (error) {
         message.reply('Wrong project name!');
         console.log(error);
       }
       break;
+
+    // kiitus
     case 'kiitus':
       let name = args.shift();
       let kiitus = `
 ${name} sa oled nii tubli! ;)`;
-
       message.reply(`\`\`\`${kiitus}\`\`\``);
       break;
-    case 'help':
-      let helpMessage = `
-WIP
-!sprint <id> to get the current sprinters data
-!userid <id> to get user data with the given id
-!name <name> to get all user with the given first name
-!name <name> <lastname> to get user with the name and lastname
-!project <name> to get project info`;
 
-      message.reply(`\`\`\`${helpMessage}\`\`\``);
+    // help
+    case 'help':
+      message.reply(`\`\`\`${helpInfo()}\`\`\``);
       break;
   }
 });
