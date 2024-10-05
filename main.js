@@ -9,6 +9,7 @@ import capitalizeFirstLetter from './Helpers/capitalize.js';
 import getSprintData from './FetchData/getSprintData.js';
 import getUserData from './FetchData/getUserData.js';
 import getUserName from './FetchData/getUserName.js';
+import truncateForDiscord from './Helpers/truncMessage.js';
 
 // init token
 const token = await fetchToken();
@@ -130,6 +131,7 @@ Last Name:  ${userData.lastName}
       let lastName = args.shift();
       if (firstName == undefined) {
         message.reply('Please enter a name to Query');
+        return;
       }
       try {
         let returnData = `
@@ -154,7 +156,7 @@ Last Name:  ${item.lastName}
 ---------------------`;
         });
 
-        message.reply(returnData);
+        message.reply(truncateForDiscord(returnData));
       } catch (error) {
         message.reply(
           'Query did not succeed, please provide a Last name as well!'
@@ -253,8 +255,8 @@ ${name} sa oled nii tubli! ;)`;
 WIP
 !sprint <id> to get the current sprinters data
 !userid <id> to get user data with the given id
-!user <name> to get all user with the given first name
-!user <name> <lastname> to get user with the name and lastname
+!name <name> to get all user with the given first name
+!name <name> <lastname> to get user with the name and lastname
 !project <name> to get project info`;
 
       message.reply(`\`\`\`${helpMessage}\`\`\``);
