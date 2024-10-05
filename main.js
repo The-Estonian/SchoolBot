@@ -15,6 +15,7 @@ import parseUserIdData from './parsers/ParseUserIdData.js';
 import parseProjectInfo from './parsers/ParseProjectInfo.js';
 import parseSprintData from './parsers/ParseSprintData.js';
 import parseUserLastNameData from './parsers/ParseUserLastNameData.js';
+import helpInfo from './Helpers/helpInfo.js';
 
 // init token
 const token = await fetchToken();
@@ -43,7 +44,7 @@ client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
   if (!restrictToChannels(message)) return;
   if (!message.content.startsWith('!')) return;
-  if (!hasAuthorization(message)) return;
+  // if (!hasAuthorization(message)) return;
 
   // command list
   const args = message.content.slice(1).trim().split(/ +/);
