@@ -137,7 +137,7 @@ client.on('messageCreate', async (message) => {
       }
       try {
         const data = await getProjectInfo();
-        const response = parseProjectInfo(data);
+        const response = parseProjectInfo(data, projectName);
         message.reply(response);
       } catch (error) {
         message.reply('Wrong project name!');

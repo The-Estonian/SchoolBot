@@ -1,6 +1,6 @@
 import capitalizeFirstLetter from '../Helpers/capitalize.js';
 
-const parseProjectInfo = (data) => {
+const parseProjectInfo = (data, projectName) => {
   let datastream = data.children['div-01'].children[projectName];
 
   let projLabel = capitalizeFirstLetter(datastream.name);
