@@ -6,13 +6,15 @@ import hasAuthorization from './HasAuthorization/hasAuthorization.js';
 import restrictToChannels from './RestrictToChannels/restrictToChannels.js';
 import fetchToken from './AuthToken/authToken.js';
 import getSprintData from './FetchData/getSprintData.js';
-import getUserData from './FetchData/getUserData.js';
-import getUserName from './FetchData/getUserName.js';
+import getUserIdData from './FetchData/getUserIdData.js';
+import getUserFirstName from './FetchData/getUserFirstName.js';
+import getUserLastName from './FetchData/getUserLastName.js';
 import truncateForDiscord from './Helpers/truncMessage.js';
-import parseUserNameData from './parsers/ParseUserNameData.js';
+import parseUserFirstNameData from './parsers/ParseUserFirstNameData.js';
 import parseUserIdData from './parsers/ParseUserIdData.js';
 import parseProjectInfo from './parsers/ParseProjectInfo.js';
 import parseSprintData from './parsers/ParseSprintData.js';
+import parseUserLastNameData from './parsers/ParseUserLastNameData.js';
 
 // init token
 const token = await fetchToken();
@@ -39,9 +41,9 @@ client.on('ready', () => {
 client.on('messageCreate', async (message) => {
   // restrictions, bot, channel, command, user:
   if (message.author.bot) return;
-  // if (!restrictToChannels(message)) return;
+  if (!restrictToChannels(message)) return;
   if (!message.content.startsWith('!')) return;
-  // if (!hasAuthorization(message)) return;
+  if (!hasAuthorization(message)) return;
 
   // command list
   const args = message.content.slice(1).trim().split(/ +/);
@@ -77,7 +79,7 @@ client.on('messageCreate', async (message) => {
         break;
       }
       try {
-        const data = await getUserData(token, userId);
+        const data = await getUserIdData(token, userId);
         const response = parseUserIdData(data);
         message.reply(response);
       } catch (error) {
@@ -85,7 +87,9 @@ client.on('messageCreate', async (message) => {
         console.error(error);
       }
       break;
-    case 'name':
+
+    // first name
+    case 'firstname':
       let firstName = args.shift();
       let lastName = args.shift();
       if (firstName == undefined) {
@@ -93,12 +97,31 @@ client.on('messageCreate', async (message) => {
         return;
       }
       try {
-        const data = await getUserName(token, firstName, lastName);
-        const response = parseUserNameData(data);
+        const data = await getUserFirstName(token, firstName, lastName);
+        const response = parseUserFirstNameData(data);
         message.reply(truncateForDiscord(response));
       } catch (error) {
         message.reply(
           'Query did not succeed, please provide a Last name as well!'
+        );
+        console.error(error);
+      }
+      break;
+
+    // last name
+    case 'lastname':
+      let lName = args.shift();
+      if (lName == undefined) {
+        message.reply('Please enter last name to Query');
+        return;
+      }
+      try {
+        const data = await getUserLastName(token, lName);
+        const response = parseUserLastNameData(data);
+        message.reply(truncateForDiscord(response));
+      } catch (error) {
+        message.reply(
+          'Query did not succeed, please try !firstname or !userid as well!'
         );
         console.error(error);
       }

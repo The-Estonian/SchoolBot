@@ -1,5 +1,4 @@
-const getUserData = async (token, userId) => {
-  // const token = await fetchToken();
+const getUserIdData = async (token, userId) => {
   const response = await fetch(
     'https://01.kood.tech/api/graphql-engine/v1/graphql',
     {
@@ -28,4 +27,4 @@ const getUserData = async (token, userId) => {
   );
   return await response.json();
 };
-export default getUserData;
+export default getUserIdData;

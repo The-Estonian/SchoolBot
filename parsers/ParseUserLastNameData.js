@@ -1,4 +1,4 @@
-const parseUserNameData = (data) => {
+const getUserLastName = (data) => {
   let returnData = `
         Received user data:
 ----------------------------------`;
@@ -19,4 +19,4 @@ Last Name:  ${item.lastName}
   return returnData;
 };
 
-export default parseUserNameData;
+export default getUserLastName;
