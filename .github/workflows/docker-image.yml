@@ -25,5 +25,5 @@ jobs:
           sudo docker container rm bot
           sudo docker image rm estonian/discord-bot:latest
           sudo docker build -t estonian/discord-bot:latest .
-          sudo docker run -d --name bot estonian/discord-bot:latest 
+          sudo docker run -e DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}} -e LOGIN=${{secrets.LOGIN}} -e PASSWORD=${{secrets.PASSWORD}} -d --name bot estonian/discord-bot:latest 
           ENDSSH
