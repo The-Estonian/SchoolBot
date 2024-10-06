@@ -16,9 +16,11 @@ import parseProjectInfo from './parsers/ParseProjectInfo.js';
 import parseSprintData from './parsers/ParseSprintData.js';
 import parseUserLastNameData from './parsers/ParseUserLastNameData.js';
 import helpInfo from './Helpers/helpInfo.js';
+import replyAndClean from './CleanAfter/replyAndClean.js';
 
-// init token
+// init token and constants
 const token = await fetchToken();
+const timer = 3000;
 
 const getProjectInfo = async () => {
   const response = await fetch('https://01.kood.tech/api/object/johvi', {
@@ -55,24 +57,24 @@ client.on('messageCreate', async (message) => {
     case 'sprint':
       let eventId = args.shift();
       if (eventId == undefined) {
-        message.reply('Please enter a valid eventId as well!');
+        replyAndClean(message, 'Please enter a valid eventId!', timer);
         break;
       }
       try {
         const data = await getSprintData(token, eventId);
         const response = parseSprintData(data);
-
         if (response.length > 0) {
-          message.reply(response);
+          replyAndClean(message, response, timer);
         } else {
-          message.reply('Event not found!');
+          replyAndClean(message, 'Event not found!', timer);
           break;
         }
       } catch (error) {
-        message.reply('Invalid EventId provided.');
+        replyAndClean(message, 'Invalid EventId provided.', timer);
         console.error(error);
       }
       break;
+      
     case 'userid':
       let userId = args.shift();
       if (userId == undefined) {

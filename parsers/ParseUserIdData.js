@@ -1,18 +1,39 @@
 import capitalizeFirstLetter from '../Helpers/capitalize.js';
 
 const parseUserIdData = (data) => {
-  let returnData = `
-        Received user data:
-----------------------------------`;
   let userData = data?.data?.user_public_view[0];
-  returnData += `
-ID:         ${userData.id}
-Login:      ${userData.login}
-First Name: ${userData.firstName}
-Last Name:  ${userData.lastName}
-----------------------------------\n`;
-  returnData += `Gained levels in modules:
-----------------------------------\n`;
+  let spacer = Math.max(
+    userData.id.toString().length,
+    userData.login.length,
+    userData.firstName.length,
+    userData.lastName.length
+  );
+  if (spacer < 13) spacer = 13;
+  let strecher = 0;
+  if (spacer > 13) strecher = spacer - 13;
+
+  let returnData = `\`\`\`
+        Received user data:
+┌────────────────┬──────────────${'─'.repeat(strecher)}┐
+│ ID:            │ ${userData.id}${' '.repeat(
+    spacer - userData.id.toString().length
+  )}│
+├────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ Login:         │ ${userData.login}${' '.repeat(
+    spacer - userData.login.length
+  )}│
+├────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ First Name:    │ ${userData.firstName}${' '.repeat(
+    spacer - userData.firstName.length
+  )}│
+├────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ Last Name:     │ ${userData.lastName}${' '.repeat(
+    spacer - userData.lastName.length
+  )}│
+├────────────────┴──────────────${'─'.repeat(strecher)}┤
+│   Gained levels in modules:   ${' '.repeat(strecher)}│
+├───────────────────────────────${'─'.repeat(strecher)}┤\n`;
+  let levelSpacer = 30;
   userData.events.forEach((row) => {
     if (row.level > 0) {
       let path = row.event.path.split('/');
@@ -21,9 +42,19 @@ Last Name:  ${userData.lastName}
         path = 'Kood / Jõhvi';
       }
       path = capitalizeFirstLetter(path);
-      returnData += path + ' ' + 'level: ' + row.level + '\n';
+      let compileString = `│  ${path} level: ${row.level}`;
+      if (compileString.length > levelSpacer) {
+        levelSpacer = compileString.length;
+      }
+      console.log(path);
+      returnData += `│ ${path} ${' '.repeat(
+        levelSpacer - compileString.length
+      )}level: ${row.level}   │\n`;
     }
   });
+
+  returnData += `└───────────────────────────────┘\`\`\``;
+
   return returnData;
 };
 export default parseUserIdData;
