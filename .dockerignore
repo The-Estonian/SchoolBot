@@ -1,0 +1,7 @@
+Terraform/
+.env
+disc_bot
+disc_bot.pub
+node_modules
+README.md
+images/

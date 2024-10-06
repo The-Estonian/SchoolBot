@@ -1,7 +1,8 @@
+import replyAndClean from '../CleanAfter/replyAndClean.js';
+
 const hasAuthorization = (message) => {
-  let hasAuthorization = ['552485072880533507', '1130502164570185860'];
-  if (!hasAuthorization.includes(message.author.id)) {
-    message.reply('Not authorized!');
+  if (!message.member.roles.cache.has('1292431434388340757')) {
+    replyAndClean(message, 'Not Authorized!', 5000);
     return false;
   }
   return true;

@@ -46,7 +46,7 @@ client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
   // if (!restrictToChannels(message)) return;
   if (!message.content.startsWith('!')) return;
-  // if (!hasAuthorization(message)) return;
+  if (!hasAuthorization(message)) return;
 
   // command list
   const args = message.content.slice(1).trim().split(/ +/);

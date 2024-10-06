@@ -15,7 +15,7 @@ provider "aws" {
 
 resource "aws_key_pair" "discord_bot" {
   key_name   = "discord_bot"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file("../disc_bot.pub")
 }
 
 resource "aws_instance" "discord_bot" {
@@ -32,8 +32,8 @@ resource "aws_instance" "discord_bot" {
     sudo systemctl start docker
     sudo systemctl enable docker
 
-    sudo docker pull your-docker-image
-    sudo docker run -d your-docker-image
+    sudo docker pull estonian/discord-bot:latest
+    docker run -e DISCORD_TOKEN=${DISCORD_TOKEN} -e LOGIN=${LOGIN} -e PASSWORD=${PASSWORD} -d estonian/discord-bot:latest
   EOF
 
   tags = {
