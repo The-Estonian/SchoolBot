@@ -8,9 +8,20 @@ const parseProjectInfo = (data, projectName) => {
   let groupMin = datastream.attrs.groupMin;
   let auditRatio = datastream.attrs.requiredAuditRatio;
   let expGained = datastream.attrs.baseXp / 1000 + 'kb';
-  let prevProj = capitalizeFirstLetter(
-    datastream.attrs.requirements.objects[0].split('/')[1]
-  );
+  let prevProj;
+  if (datastream.attrs.displayedName == 'go-reloaded') {
+    prevProj = 'Go Piscine';
+  } else {
+    if (datastream.attrs.requirements.objects != undefined) {
+      prevProj = capitalizeFirstLetter(
+        datastream.attrs.requirements.objects[0].split('/')[1]
+      );
+    } else {
+      prevProj = capitalizeFirstLetter(
+        datastream.attrs.requirements.core.split('/')[1]
+      );
+    }
+  }
   let auditReq = `${datastream.attrs.validations[0].required} out of ${
     datastream.attrs.validations[0].required *
     datastream.attrs.validations[0].ratio
