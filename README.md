@@ -2,9 +2,15 @@
 
 ## Project Description
 
-Created discord bot for simple school GraphQL fetches.
-
 This is a personal project and only to be used by K/J members/staff.
+
+Features:
+
+User needs proper discord server role to use the bot.
+
+Unauthorize access will be logged in a separate channel.
+
+Commands below will fetch the user/project data via GraphQL or school API via json and present it via reply to the command.
 
 NB: User auth needed for the project to work.
 
@@ -44,6 +50,8 @@ NB: User auth needed for the project to work.
 ![Project Screenshot](images/3.png)
 ![Project Screenshot](images/4.png)
 ![Project Screenshot](images/5.png)
+![Project Screenshot](images/6.png)
+![Project Screenshot](images/7.png)
 
 ## Contributing
 
