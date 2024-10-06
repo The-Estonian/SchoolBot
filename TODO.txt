@@ -1,3 +1,0 @@
-refactor code to files
-different fetches?
-global authorization token?
