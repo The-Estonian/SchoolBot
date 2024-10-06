@@ -20,7 +20,7 @@ import replyAndClean from './CleanAfter/replyAndClean.js';
 
 // init token and constants
 const token = await fetchToken();
-const timer = 3000;
+const timer = 10000;
 
 const getProjectInfo = async () => {
   const response = await fetch('https://01.kood.tech/api/object/johvi', {
@@ -44,7 +44,7 @@ client.on('ready', () => {
 client.on('messageCreate', async (message) => {
   // restrictions, bot, channel, command, user:
   if (message.author.bot) return;
-  if (!restrictToChannels(message)) return;
+  // if (!restrictToChannels(message)) return;
   if (!message.content.startsWith('!')) return;
   // if (!hasAuthorization(message)) return;
 
@@ -74,19 +74,19 @@ client.on('messageCreate', async (message) => {
         console.error(error);
       }
       break;
-      
+
     case 'userid':
       let userId = args.shift();
-      if (userId == undefined) {
-        message.reply('Please enter userId to query!');
+      if (userId == undefined || isNaN(userId)) {
+        replyAndClean(message, 'Please enter id to query!', timer);
         break;
       }
       try {
         const data = await getUserIdData(token, userId);
         const response = parseUserIdData(data);
-        message.reply(response);
+        replyAndClean(message, response, timer);
       } catch (error) {
-        message.reply('Invalid UserId provided.');
+        replyAndClean(message, 'Invalid UserId provided.', timer);
         console.error(error);
       }
       break;
@@ -96,17 +96,15 @@ client.on('messageCreate', async (message) => {
       let firstName = args.shift();
       let lastName = args.shift();
       if (firstName == undefined) {
-        message.reply('Please enter a name to Query');
+        replyAndClean(message, 'Please enter a name to Query', timer);
         return;
       }
       try {
         const data = await getUserFirstName(token, firstName, lastName);
         const response = parseUserFirstNameData(data);
-        message.reply(truncateForDiscord(response));
+        replyAndClean(message, truncateForDiscord(response), timer);
       } catch (error) {
-        message.reply(
-          'Query did not succeed, please provide a Last name as well!'
-        );
+        replyAndClean(message, `Failed, maybe try !lastname`, timer);
         console.error(error);
       }
       break;
@@ -115,17 +113,15 @@ client.on('messageCreate', async (message) => {
     case 'lastname':
       let lName = args.shift();
       if (lName == undefined) {
-        message.reply('Please enter last name to Query');
+        replyAndClean(message, 'Please enter last name to Query', timer);
         return;
       }
       try {
         const data = await getUserLastName(token, lName);
         const response = parseUserLastNameData(data);
-        message.reply(truncateForDiscord(response));
+        replyAndClean(message, truncateForDiscord(response), timer);
       } catch (error) {
-        message.reply(
-          'Query did not succeed, please try !firstname or !userid as well!'
-        );
+        replyAndClean(message, 'Failed, try !firstname or !lastname', timer);
         console.error(error);
       }
       break;
@@ -134,15 +130,15 @@ client.on('messageCreate', async (message) => {
     case 'project':
       let projectName = args.shift();
       if (projectName == undefined) {
-        message.reply('Please enter project name!');
+        replyAndClean(message, 'Please enter project name!', timer);
         break;
       }
       try {
         const data = await getProjectInfo();
         const response = parseProjectInfo(data, projectName);
-        message.reply(response);
+        replyAndClean(message, response, timer);
       } catch (error) {
-        message.reply('Wrong project name!');
+        replyAndClean(message, 'Wrong project name!', timer);
         console.log(error);
       }
       break;
@@ -152,12 +148,12 @@ client.on('messageCreate', async (message) => {
       let name = args.shift();
       let kiitus = `
 ${name} sa oled nii tubli! ;)`;
-      message.reply(`\`\`\`${kiitus}\`\`\``);
+      replyAndClean(message, `\`\`\`${kiitus}\`\`\``, timer);
       break;
 
     // help
     case 'help':
-      message.reply(`\`\`\`${helpInfo()}\`\`\``);
+      replyAndClean(message, `\`\`\`${helpInfo()}\`\`\``, timer * 2);
       break;
   }
 });

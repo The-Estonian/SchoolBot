@@ -46,7 +46,6 @@ const parseUserIdData = (data) => {
       if (compileString.length > levelSpacer) {
         levelSpacer = compileString.length;
       }
-      console.log(path);
       returnData += `│ ${path} ${' '.repeat(
         levelSpacer - compileString.length
       )}level: ${row.level}   │\n`;
