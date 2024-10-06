@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ['master']
+  pull_request:
+    branches: ['master']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+
+      - name: Deploy Docker image to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_EC2 }} << 'ENDSSH'
+          cd /home/ubuntu/SchoolBot
+          sudo git pull
+          sudo docker container stop bot
+          sudo docker container rm bot
+          sudo docker image rm estonian/discord-bot:latest
+          sudo docker build -t estonian/discord-bot:latest .
+          sudo docker run -d --name bot estonian/discord-bot:latest 
+          ENDSSH
