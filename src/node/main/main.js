@@ -21,7 +21,7 @@ import logErrorToFile from './ErrorLogging/logError.js';
 
 // init token and constants
 const token = await fetchToken();
-const timer = 10000;
+const timer = 30000;
 
 const getProjectInfo = async () => {
   const response = await fetch('https://01.kood.tech/api/object/johvi', {
@@ -68,6 +68,32 @@ client.on('messageCreate', async (message) => {
   const command = args.shift().toLowerCase();
 
   switch (command) {
+    case 'remove':
+      try {
+        let messageAmount = parseInt(args.shift());
+        if (messageAmount == undefined || isNaN(messageAmount)) {
+          replyAndClean(
+            message,
+            'Please enter a number on how many messages to remove',
+            timer
+          );
+          break;
+        }
+        if (messageAmount > 100) messageAmount = 100;
+        await message.channel.bulkDelete(messageAmount + 1, true);
+        replyAndClean(
+          message,
+          `Removed last ${messageAmount} messages!`,
+          timer
+        );
+      } catch (error) {
+        replyAndClean(message, 'Error removing rows', timer);
+        logErrorToFile(error);
+        console.log(error);
+      }
+      break;
+
+    // Create an error to test server crash logging to AWS S3 bucket
     case 'crash':
       try {
         // smth that crashes
