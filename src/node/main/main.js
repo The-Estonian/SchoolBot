@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import { Client } from 'discord.js';
-import { exec } from 'child_process';
 dotenv.config();
 
 import hasAuthorization from './HasAuthorization/hasAuthorization.js';
@@ -56,18 +55,9 @@ const client = new Client({
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   const channel = client.channels.cache.get('1257316921565646878');
-
-  // get git hash
-  exec('git rev-parse HEAD', (err, stdout, stderr) => {
-    if (err) {
-      // If there's an error, log it and send an error message to the channel
-      console.error(`Error fetching Git commit hash: ${err}`);
-      channel.send('Error fetching Git commit hash.');
-      return;
-    }
-    const commitHash = stdout.trim();
-    channel.send(`Social-Manager updated to version ${commitHash}`);
-  });
+  channel.send(
+    `Social-Manager updated to version ${process.env.GIT_COMMIT || 'unknown'}`
+  );
 });
 
 client.on('messageCreate', async (message) => {

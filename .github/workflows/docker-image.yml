@@ -16,6 +16,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
 
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set Git commit hash
+        run: echo "GIT_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
+
       - name: Deploy Docker image to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_EC2 }} << 'ENDSSH'
