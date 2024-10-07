@@ -33,6 +33,20 @@ const getProjectInfo = async () => {
   return await response.json();
 };
 
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  logErrorToFile(error).catch((err) =>
+    console.error('Failed to log error:', err)
+  );
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  logErrorToFile(reason).catch((err) =>
+    console.error('Failed to log error:', err)
+  );
+});
+
 // bot
 const client = new Client({
   intents: ['Guilds', 'GuildMessages', 'MessageContent'],
