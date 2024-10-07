@@ -56,7 +56,9 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   const channel = client.channels.cache.get('1257316921565646878');
   channel.send(
-    `Social-Manager updated to version ${process.env.GIT_COMMIT || 'Failed to fetch version.'}`
+    `\`\`\`Social-Manager updated to version: ${
+      process.env.GIT_COMMIT || 'Failed to fetch version.'
+    }\`\`\``
   );
 });
 
