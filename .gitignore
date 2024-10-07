@@ -1,5 +1,5 @@
 .env
-node_modules/*
+src/node/main/node_modules/*
 disc_bot
 disc_bot.pub
 

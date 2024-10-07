@@ -17,6 +17,7 @@ import parseSprintData from './parsers/ParseSprintData.js';
 import parseUserLastNameData from './parsers/ParseUserLastNameData.js';
 import helpInfo from './Helpers/helpInfo.js';
 import replyAndClean from './CleanAfter/replyAndClean.js';
+import logErrorToFile from './ErrorLogging/logError.js';
 
 // init token and constants
 const token = await fetchToken();
@@ -53,6 +54,17 @@ client.on('messageCreate', async (message) => {
   const command = args.shift().toLowerCase();
 
   switch (command) {
+    case 'crash':
+      try {
+        // smth that crashes
+        throw new Error('This is a simulated crash error!');
+      } catch (error) {
+        replyAndClean(message, 'This is a simulated crash error!', timer);
+        replyAndClean(message, 'Sending data to S3 error.log container...', timer);
+        logErrorToFile(error);
+        console.log(error);
+      }
+      break;
     // sprint
     case 'sprint':
       let eventId = args.shift();
