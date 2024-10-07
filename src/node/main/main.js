@@ -65,9 +65,9 @@ client.on('ready', () => {
       channel.send('Error fetching Git commit hash.');
       return;
     }
+    const commitHash = stdout.trim();
+    channel.send(`Social-Manager updated to version ${commitHash}`);
   });
-  const commitHash = stdout.trim();
-  channel.send(`Social-Manager updated to version ${commitHash}`);
 });
 
 client.on('messageCreate', async (message) => {
