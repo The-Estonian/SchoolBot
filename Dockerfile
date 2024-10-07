@@ -1,14 +1,12 @@
-FROM node
+FROM node:18
 
-RUN apt update
-
-RUN npm install aws-sdk
+RUN apt update && apt install -y --no-install-recommends \
+    && npm cache clean --force
 
 WORKDIR /app
 
 COPY src/node/main/package*.json ./
 
-# Use npm ci for a clean install based on package-lock.json
 RUN npm install
 
 COPY ./src/node/main .

@@ -131,8 +131,8 @@ resource "aws_instance" "discord_bot" {
 
     sudo git clone https://github.com/The-Estonian/SchoolBot.git /home/ubuntu/SchoolBot
     cd /home/ubuntu/SchoolBot
-    sudo docker build -t discord-bot:latest .
-    sudo docker run -e DISCORD_TOKEN=${var.DISCORD_TOKEN} -e LOGIN=${var.LOGIN} -e PASSWORD=${var.PASSWORD} -d --name bot discord-bot:latest
+    sudo docker build -t estonian/discord-bot:latest .
+    sudo docker run -e DISCORD_TOKEN=${var.DISCORD_TOKEN} -e LOGIN=${var.LOGIN} -e PASSWORD=${var.PASSWORD} -d --name bot estonian/discord-bot:latest
     git config --global --add safe.directory /home/ubuntu/SchoolBot
   EOF
 
