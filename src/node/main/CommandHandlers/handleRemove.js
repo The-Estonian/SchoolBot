@@ -1,3 +1,6 @@
+import replyAndClean from '../CleanAfter/replyAndClean.js';
+import logErrorToFile from '../ErrorLogging/logError.js';
+
 const handleRemove = async (message, args) => {
   try {
     let messageAmount = parseInt(args.shift());
