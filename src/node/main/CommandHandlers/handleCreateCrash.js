@@ -1,4 +1,4 @@
-import logErrorToFile from '../ErrorLogging/logError.js';
+import logErrorToFile from '../Logging/logError.js';
 import replyAndClean from '../CleanAfter/replyAndClean.js';
 
 const handleCreateCrash = async (message) => {

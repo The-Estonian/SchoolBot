@@ -1,4 +1,4 @@
-import logErrorToFile from '../ErrorLogging/logError.js';
+import logErrorToFile from '../Logging/logError.js';
 import replyAndClean from '../CleanAfter/replyAndClean.js';
 import parseSprintData from '../parsers/ParseSprintData.js';
 import getSprintData from '../FetchData/getSprintData.js';

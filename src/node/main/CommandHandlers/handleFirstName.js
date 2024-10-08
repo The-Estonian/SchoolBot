@@ -1,4 +1,4 @@
-import logErrorToFile from '../ErrorLogging/logError.js';
+import logErrorToFile from '../Logging/logError.js';
 import replyAndClean from '../CleanAfter/replyAndClean.js';
 import parseUserFirstNameData from '../parsers/ParseUserFirstNameData.js';
 import getUserFirstName from '../FetchData/getUserFirstName.js';
