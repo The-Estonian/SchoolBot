@@ -18,6 +18,7 @@ import parseUserLastNameData from './parsers/ParseUserLastNameData.js';
 import helpInfo from './Helpers/helpInfo.js';
 import replyAndClean from './CleanAfter/replyAndClean.js';
 import logErrorToFile from './ErrorLogging/logError.js';
+import handleRemove from './CommandHandlers/handleRemove.js';
 
 // init token and constants
 const token = await fetchToken();
@@ -75,28 +76,7 @@ client.on('messageCreate', async (message) => {
 
   switch (command) {
     case 'remove':
-      try {
-        let messageAmount = parseInt(args.shift());
-        if (messageAmount == undefined || isNaN(messageAmount)) {
-          replyAndClean(
-            message,
-            'Please enter a number on how many messages to remove',
-            timer
-          );
-          break;
-        }
-        if (messageAmount > 100) messageAmount = 100;
-        await message.channel.bulkDelete(messageAmount + 1, true);
-        replyAndClean(
-          message,
-          `Removed last ${messageAmount} messages!`,
-          timer
-        );
-      } catch (error) {
-        replyAndClean(message, 'Error removing rows', timer);
-        logErrorToFile(error);
-        console.log(error);
-      }
+      handleRemove(message);
       break;
 
     // Create an error to test server crash logging to AWS S3 bucket

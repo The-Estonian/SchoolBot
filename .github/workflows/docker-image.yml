@@ -27,7 +27,7 @@ jobs:
       - name: Deploy Docker image to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.AWS_EC2 }} << 'ENDSSH'
-          curl -X POST "https://discord.com/api/v9/channels/1257316921565646878/messages" -H "Authorization: Bot ${{ secrets.DISCORD_TOKEN }}" -H "Content-Type: application/json" -d '{"content": "Shutting down bot for update..."}'
+          curl -X POST "https://discord.com/api/v9/channels/1257316921565646878/messages" -H "Authorization: Bot ${{ secrets.DISCORD_TOKEN }}" -H "Content-Type: application/json" -d '{"content": `\`\`\`Shutting down bot for update...\`\`\``}'
           cd /home/ubuntu/SchoolBot
           sudo git pull
           sudo docker container stop bot
