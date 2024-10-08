@@ -24,7 +24,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // bot client
 const client = new Client({
-  intents: ['Guilds', 'GuildMessages', 'MessageContent'],
+  intents: ['Guilds', 'GuildMessages', 'MessageContent', 'GuildMembers'],
 });
 
 // greeting on start
@@ -59,6 +59,8 @@ client.on('guildMemberRemove', async (member) => {
 
 client.on('guildMemberAdd', async (member) => {
   const channel = await client.channels.fetch('1257316921565646878');
+  console.log(channel);
+
   await userLogging(member.user.tag, 'Joined the server');
   channel.send(
     `\`\`\`Welcome to the server, ${member.user.tag} ! Please give me a second while i fetch your credentials to be saved for later. Toodeloo\`\`\``
