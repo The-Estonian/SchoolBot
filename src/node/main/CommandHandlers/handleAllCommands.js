@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import helpInfo from '../Helpers/helpInfo.js';
 import replyAndClean from '../CleanAfter/replyAndClean.js';
 import handleRemove from './handleRemove.js';

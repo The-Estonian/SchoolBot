@@ -19,7 +19,7 @@ const helpInfo = () => {
 ├─────────────────────────────┼─────────────────────────────────────────────┤
 │ !crash                      │ Implements server crash for testing         │
 ├─────────────────────────────┴─────────────────────────────────────────────┤
-│        NB: Bot will delete his response and your command in 10s           │
+│        NB: Bot will delete his response and your command in 30s           │
 └───────────────────────────────────────────────────────────────────────────┘`;
 };
 

@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
 import { Client } from 'discord.js';
+import dotenv from 'dotenv';
 dotenv.config();
 
 import hasAuthorization from './HasAuthorization/hasAuthorization.js';

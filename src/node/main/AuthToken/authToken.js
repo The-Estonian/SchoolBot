@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 const fetchToken = async () => {
   const base64Encode = (login, password) => {
     return Buffer.from(`${login}:${password}`).toString('base64');
