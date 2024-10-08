@@ -1,4 +1,4 @@
-const handleRemove = async (message) => {
+const handleRemove = async (message, args) => {
   try {
     let messageAmount = parseInt(args.shift());
     if (messageAmount == undefined || isNaN(messageAmount)) {

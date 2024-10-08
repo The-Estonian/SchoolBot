@@ -76,7 +76,7 @@ client.on('messageCreate', async (message) => {
 
   switch (command) {
     case 'remove':
-      handleRemove(message);
+      handleRemove(message, args);
       break;
 
     // Create an error to test server crash logging to AWS S3 bucket
