@@ -1,9 +1,11 @@
-const replyAndClean = (incoming, reply, messageRemoveTimer) => {
+const timer = 30000;
+
+const replyAndClean = (incoming, reply) => {
   incoming.reply(reply).then((sentMessage) => {
     setTimeout(() => {
       sentMessage.delete();
       incoming.delete();
-    }, messageRemoveTimer);
+    }, timer);
   });
 };
 

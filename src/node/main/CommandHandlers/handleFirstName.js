@@ -8,15 +8,15 @@ const handleFirstName = async (message, args, token) => {
   let firstName = args.shift();
   let lastName = args.shift();
   if (firstName == undefined) {
-    replyAndClean(message, 'Please enter a name to Query', timer);
+    replyAndClean(message, 'Please enter a name to Query');
     return;
   }
   try {
     const data = await getUserFirstName(token, firstName, lastName);
     const response = parseUserFirstNameData(data);
-    replyAndClean(message, truncateForDiscord(response), timer);
+    replyAndClean(message, truncateForDiscord(response));
   } catch (error) {
-    replyAndClean(message, `Failed, maybe try !lastname`, timer);
+    replyAndClean(message, `Failed, maybe try !lastname`);
     console.error(error);
   }
 };

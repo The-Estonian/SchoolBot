@@ -6,8 +6,8 @@ const handleCreateCrash = async (message) => {
     console.log('Throwing Error!');
     throw new Error('This is a simulated crash error!');
   } catch (error) {
-    replyAndClean(message, 'This is a simulated crash error!', timer);
-    replyAndClean(message, 'Sending data to S3 error.log container...', timer);
+    replyAndClean(message, 'This is a simulated crash error!');
+    replyAndClean(message, 'Sending data to S3 error.log container...');
     logErrorToFile(error);
     console.log(error);
   }

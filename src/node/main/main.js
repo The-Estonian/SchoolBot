@@ -5,7 +5,6 @@ dotenv.config();
 import hasAuthorization from './HasAuthorization/hasAuthorization.js';
 import restrictToChannels from './RestrictToChannels/restrictToChannels.js';
 import fetchToken from './AuthToken/authToken.js';
-import parseProjectInfo from './parsers/ParseProjectInfo.js';
 import helpInfo from './Helpers/helpInfo.js';
 import replyAndClean from './CleanAfter/replyAndClean.js';
 import logErrorToFile from './ErrorLogging/logError.js';
@@ -19,7 +18,6 @@ import handleProject from './CommandHandlers/handleProject.js';
 
 // init token and constants
 const token = await fetchToken();
-const timer = 30000;
 
 process.on('uncaughtException', (error) => {
   console.error('Uncaught Exception:', error);
@@ -101,12 +99,12 @@ client.on('messageCreate', async (message) => {
       let name = args.shift();
       let kiitus = `
 ${name} sa oled nii tubli! ;)`;
-      replyAndClean(message, `\`\`\`${kiitus}\`\`\``, timer);
+      replyAndClean(message, `\`\`\`${kiitus}\`\`\``);
       break;
 
     // help
     case 'help':
-      replyAndClean(message, `\`\`\`${helpInfo()}\`\`\``, timer * 2);
+      replyAndClean(message, `\`\`\`${helpInfo()}\`\`\``);
       break;
   }
 });
