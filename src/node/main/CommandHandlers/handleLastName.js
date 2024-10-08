@@ -1,4 +1,3 @@
-import logErrorToFile from '../Logging/logError.js';
 import replyAndClean from '../CleanAfter/replyAndClean.js';
 import getUserLastName from '../FetchData/getUserLastName.js';
 import parseUserLastNameData from '../parsers/ParseUserLastNameData.js';

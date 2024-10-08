@@ -1,4 +1,3 @@
-import logErrorToFile from '../Logging/logError.js';
 import replyAndClean from '../CleanAfter/replyAndClean.js';
 import getProjectInfo from '../FetchData/getProjectInfo.js';
 import parseProjectInfo from '../parsers/ParseProjectInfo.js';

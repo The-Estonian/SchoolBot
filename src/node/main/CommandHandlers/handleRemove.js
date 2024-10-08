@@ -1,5 +1,5 @@
 import replyAndClean from '../CleanAfter/replyAndClean.js';
-import logErrorToFile from '../Logging/logError.js';
+import { logErrorToFile } from '../Logging/logError.js';
 
 const handleRemove = async (message, args) => {
   try {
