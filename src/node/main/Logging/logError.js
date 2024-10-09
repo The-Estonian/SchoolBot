@@ -23,7 +23,7 @@ export const logErrorToFile = async (error) => {
 };
 
 export const userLogging = async (userTag, eventType) => {
-  console.log('Logging user to AWS S3', tag, eventType);
+  console.log('Logging user to AWS S3', userTag, eventType);
 
   const timeStamp = new Date().toISOString();
   const userLog = `[${timeStamp}] - ${eventType.toUpperCase()}: ${userTag}\n`;
