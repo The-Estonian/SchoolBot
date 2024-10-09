@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import AWS from 'aws-sdk';
 
 const s3 = new AWS.S3();
@@ -9,7 +7,7 @@ export const logErrorToFile = async (error) => {
   const errorMessage = `[${timeStamp}] - ${error.stack || error}\n`;
 
   const params = {
-    Bucket: 'discordbot-error-logs', // Replace with your S3 bucket name
+    Bucket: 'school-discord-logs', // Replace with your S3 bucket name
     Key: `error-logs/error-${timeStamp}.log`,
     Body: errorMessage,
     ContentType: 'text/plain',
@@ -25,11 +23,13 @@ export const logErrorToFile = async (error) => {
 };
 
 export const userLogging = async (userTag, eventType) => {
+  console.log('Logging user to AWS S3', tag, eventType);
+
   const timeStamp = new Date().toISOString();
   const userLog = `[${timeStamp}] - ${eventType.toUpperCase()}: ${userTag}\n`;
 
   const params = {
-    Bucket: 'discordbot-error-logs', // Replace with your S3 bucket name
+    Bucket: 'school-discord-logs', // Replace with your S3 bucket name
     Key: `UserLogs/${eventType}/${userTag}-${timeStamp}.log`,
     Body: userLog,
     ContentType: 'text/plain',
