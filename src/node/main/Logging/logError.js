@@ -7,7 +7,7 @@ export const logErrorToFile = async (error) => {
   const errorMessage = `[${timeStamp}] - ${error.stack || error}\n`;
 
   const params = {
-    Bucket: 'school-discord-logs', // Replace with your S3 bucket name
+    Bucket: 'school-discord-logs',
     Key: `error-logs/error-${timeStamp}.log`,
     Body: errorMessage,
     ContentType: 'text/plain',
@@ -29,14 +29,13 @@ export const userLogging = async (userTag, eventType) => {
   const userLog = `[${timeStamp}] - ${eventType.toUpperCase()}: ${userTag}\n`;
 
   const params = {
-    Bucket: 'school-discord-logs', // Replace with your S3 bucket name
-    Key: `UserLogs/${eventType}/${userTag}-${timeStamp}.log`,
+    Bucket: 'school-discord-logs',
+    Key: `user-logs/${eventType}/${userTag}-${timeStamp}.log`,
     Body: userLog,
     ContentType: 'text/plain',
   };
 
   try {
-    // Upload the error message directly to S3
     await s3.putObject(params).promise();
     console.log('Error log uploaded to S3 successfully.');
   } catch (s3Err) {
