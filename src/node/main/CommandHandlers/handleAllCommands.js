@@ -22,11 +22,13 @@ const handleAllCommands = (message) => {
   switch (command) {
     // Remove x amount of messages from channel
     case 'remove':
+      if (message.author.id != '552485072880533507') return;
       handleRemove(message, args);
       break;
 
     // Create an error to test server crash logging to AWS S3 bucket
     case 'crash':
+      if (message.author.id != '552485072880533507') return;
       handleCreateCrash(message);
       break;
 

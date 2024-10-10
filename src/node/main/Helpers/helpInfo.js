@@ -16,10 +16,6 @@ const helpInfo = () => {
 │ !lastname <name>            │ to get all users with the given last name   │
 ├─────────────────────────────┼─────────────────────────────────────────────┤
 │ !project <name>             │ to get project info                         │
-├─────────────────────────────┼─────────────────────────────────────────────┤
-│ !remove <n>                 │ to remove n amount of messages from channel │
-├─────────────────────────────┼─────────────────────────────────────────────┤
-│ !crash                      │ Implements server crash for testing         │
 ├─────────────────────────────┴─────────────────────────────────────────────┤
 │        NB: Bot will delete his response and your command in 30s           │
 └───────────────────────────────────────────────────────────────────────────┘`;
