@@ -51,7 +51,7 @@ export const commandLogging = async (userTag, command) => {
 
   const params = {
     Bucket: 'school-discord-logs',
-    Key: `command-logs`,
+    Key: `command-logs/${userTag}-${command}.log`,
     Body: userLog,
     ContentType: 'text/plain',
   };

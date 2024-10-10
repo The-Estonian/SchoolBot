@@ -19,7 +19,7 @@ const token = await fetchToken();
 const handleAllCommands = (message) => {
   const args = message.content.slice(1).trim().split(/ +/);
   const command = args.shift().toLowerCase();
-  commandLogging(message.author.id, command);
+  commandLogging(message.author.tag, command);
   switch (command) {
     // Remove x amount of messages from channel
     case 'remove':
