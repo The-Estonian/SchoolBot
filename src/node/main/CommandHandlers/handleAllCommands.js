@@ -11,6 +11,7 @@ import handleFirstName from './handleFirstName.js';
 import handleLastName from './handleLastName.js';
 import handleProject from './handleProject.js';
 import fetchToken from '../AuthToken/authToken.js';
+import { commandLogging } from '../Logging/logError.js';
 
 // init token and constants
 const token = await fetchToken();
@@ -18,7 +19,7 @@ const token = await fetchToken();
 const handleAllCommands = (message) => {
   const args = message.content.slice(1).trim().split(/ +/);
   const command = args.shift().toLowerCase();
-
+  commandLogging(message.author.id, command);
   switch (command) {
     // Remove x amount of messages from channel
     case 'remove':
