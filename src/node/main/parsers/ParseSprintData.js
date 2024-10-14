@@ -23,24 +23,27 @@ const parseSprintData = (data) => {
     });
   }
   if (data?.data?.event_by_pk?.groups.length > 0) {
-    returnString += '┌─────────────────────────────────────────────\n';
+    returnString += '┌─────────────────────────────────────────────';
     data?.data?.event_by_pk?.groups.forEach((captain) => {
       returnString += `
-├─────────────────────────────────────────────
 │ Captain: ${captain.captainLogin} │
 ├─────────────────────────────────────────────`;
-      captain.members.forEach((member) => {
+      for (let i = 0; i < captain.members.length; i++) {
         returnString += `
-│   Members: ${member.userLogin} │`;
-      });
-      returnString += '└─────────────────────────────────────────────\n';
+│   Members: ${captain.members[i].userLogin} │\n`;
+        if (i != captain.members.length - 1) {
+          returnString += `├─────────────────────────────────────────────`;
+        } else {
+          returnString += '└─────────────────────────────────────────────';
+        }
+      }
     });
   } else {
     data?.data?.event_by_pk?.usersRelation.forEach((element) => {
       returnString += element.userLogin + ': level ' + element.level + '\n';
     });
   }
-  return returnString;
+  return `\`\`\`${returnString}\`\`\``;
 };
 
 export default parseSprintData;
