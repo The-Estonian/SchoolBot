@@ -23,11 +23,17 @@ const parseSprintData = (data) => {
     });
   }
   if (data?.data?.event_by_pk?.groups.length > 0) {
+    returnString += '┌─────────────────────────────────────────────\n';
     data?.data?.event_by_pk?.groups.forEach((captain) => {
-      returnString += 'Captain: ' + captain.captainLogin + '\n';
+      returnString += `
+├─────────────────────────────────────────────
+│ Captain: ${captain.captainLogin} │
+├─────────────────────────────────────────────`;
       captain.members.forEach((member) => {
-        returnString += '   Members: ' + member.userLogin + '\n';
+        returnString += `
+│   Members: ${member.userLogin} │`;
       });
+      returnString += '└─────────────────────────────────────────────\n';
     });
   } else {
     data?.data?.event_by_pk?.usersRelation.forEach((element) => {
