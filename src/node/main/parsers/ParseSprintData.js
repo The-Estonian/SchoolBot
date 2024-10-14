@@ -23,21 +23,27 @@ const parseSprintData = (data) => {
     });
   }
   if (data?.data?.event_by_pk?.groups.length > 0) {
-    returnString += '┌─────────────────────────────────────────────';
-    data?.data?.event_by_pk?.groups.forEach((captain) => {
+    returnString += '┌─────────────────────────────────────────────┐';
+    // data?.data?.event_by_pk?.groups.forEach((captain) => {
+    let captain = data?.data?.event_by_pk?.groups;
+
+    for (let x = 0; x < captain.length; x++) {
       returnString += `
-│ Captain: ${captain.captainLogin} │
-├─────────────────────────────────────────────`;
-      for (let i = 0; i < captain.members.length; i++) {
+│ Captain: ${captain[x].captainLogin} │
+├─────────────────────────────────────────────┤`;
+      for (let i = 0; i < captain[x].members.length; i++) {
         returnString += `
-│   Members: ${captain.members[i].userLogin} │\n`;
-        if (i != captain.members.length - 1) {
-          returnString += `├─────────────────────────────────────────────`;
+│   Members: ${captain[x].members[i].userLogin} │\n`;
+        if (i != captain[x].members.length - 1) {
+          returnString += `├─────────────────────────────────────────────┤`;
         } else {
-          returnString += '└─────────────────────────────────────────────';
+          returnString += `└─────────────────────────────────────────────┘`;
+          if (captain[x] != captain.length - 1) {
+            returnString += '\n┌─────────────────────────────────────────────┐';
+          }
         }
       }
-    });
+    }
   } else {
     data?.data?.event_by_pk?.usersRelation.forEach((element) => {
       returnString += element.userLogin + ': level ' + element.level + '\n';
