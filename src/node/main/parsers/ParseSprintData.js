@@ -31,11 +31,11 @@ const parseSprintData = (data) => {
       returnString += `
 │ Captain: ${captain[x].captainLogin
         .padStart(captainMedian)
-        .padEnd(45 - captainMedian)} │
+        .padEnd(captain[x].captainLogin.length - captainMedian)} │
 ├─────────────────────────────────────────────┤`;
       for (let i = 0; i < captain[x].members.length; i++) {
         returnString += `
-│         Members: ${captain[x].members[i].userLogin} │\n`;
+│         Members: ${captain[x].members[i].userLogin.padEnd(28)} │\n`;
         if (i != captain[x].members.length - 1) {
           returnString += `├─────────────────────────────────────────────┤`;
         } else {
