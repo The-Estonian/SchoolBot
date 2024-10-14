@@ -24,21 +24,23 @@ const parseSprintData = (data) => {
   }
   if (data?.data?.event_by_pk?.groups.length > 0) {
     returnString += '┌─────────────────────────────────────────────┐';
-    // data?.data?.event_by_pk?.groups.forEach((captain) => {
     let captain = data?.data?.event_by_pk?.groups;
 
     for (let x = 0; x < captain.length; x++) {
+      let captainMedian = 45 - Math.floor(captain[x].captainLogin.length);
       returnString += `
-│ Captain: ${captain[x].captainLogin} │
+│ Captain: ${captain[x].captainLogin
+        .padStart(captainMedian)
+        .padEnd(45 - captainMedian)} │
 ├─────────────────────────────────────────────┤`;
       for (let i = 0; i < captain[x].members.length; i++) {
         returnString += `
-│   Members: ${captain[x].members[i].userLogin} │\n`;
+│         Members: ${captain[x].members[i].userLogin} │\n`;
         if (i != captain[x].members.length - 1) {
           returnString += `├─────────────────────────────────────────────┤`;
         } else {
           returnString += `└─────────────────────────────────────────────┘`;
-          if (captain[x] != captain.length - 1) {
+          if (captain[x] != captain.length) {
             returnString += '\n┌─────────────────────────────────────────────┐';
           }
         }
