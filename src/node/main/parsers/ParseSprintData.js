@@ -10,8 +10,8 @@ const parseSprintData = (data) => {
     returnData = data?.data?.event_by_pk?.path.split('/')[3];
     if (returnData == undefined) return '';
   }
-  // let returnString = capitalizeFirstLetter(returnData) + '\n';
-  let returnString = returnData + '\n';
+  let returnString = capitalizeFirstLetter(returnData) + '\n';
+  returnString += queryLength.length;
   const date = new Date(data?.data?.event_by_pk?.startAt);
   const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
   returnString +=
@@ -31,8 +31,8 @@ const parseSprintData = (data) => {
       let captainMedian = Math.floor((45 - captain[x].captainLogin.length) / 2);
       returnString += `
 │ Captain: ${captain[x].captainLogin
-        .padStart(captainMedian)
-        .padEnd(45 - captain[x].captainLogin.length - captainMedian)} │
+        .padStart(captainMedian + captain[x].captainLogin.length)
+        .padEnd(45)} │
 ├─────────────────────────────────────────────┤`;
       for (let i = 0; i < captain[x].members.length; i++) {
         returnString += `
