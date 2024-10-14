@@ -9,13 +9,14 @@ const parseSprintData = (data) => {
     returnData = data?.data?.event_by_pk?.path?.split('/')[4];
   } else {
     returnData = data?.data?.event_by_pk?.path?.split('/')[3];
-    if (returnData == undefined) returnString += data?.data?.event_by_pk?.path;
+    if (returnData == undefined) return '';
   }
-  returnString = capitalizeFirstLetter(returnData) + '\n';
+  returnString = `
+      ${capitalizeFirstLetter(returnData)}    `;
   const date = new Date(data?.data?.event_by_pk?.startAt);
   const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-  returnString +=
-    'Starting at: ' + date.toLocaleDateString('en-GB', options) + '\n';
+  returnString += `
+      Starting at: ${date.toLocaleDateString('en-GB', options)}\n`;
   if (data?.data?.event_by_pk?.usersRelation.length == 0) {
     returnString += 'Currently registered users: \n';
 
