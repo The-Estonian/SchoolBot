@@ -10,7 +10,8 @@ const parseSprintData = (data) => {
     returnData = data?.data?.event_by_pk?.path.split('/')[3];
     if (returnData == undefined) return '';
   }
-  let returnString = capitalizeFirstLetter(returnData) + '\n';
+  // let returnString = capitalizeFirstLetter(returnData) + '\n';
+  let returnString = returnData + '\n';
   const date = new Date(data?.data?.event_by_pk?.startAt);
   const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
   returnString +=
@@ -31,11 +32,11 @@ const parseSprintData = (data) => {
       returnString += `
 │ Captain: ${captain[x].captainLogin
         .padStart(captainMedian)
-        .padEnd(captain[x].captainLogin.length - captainMedian)} │
+        .padEnd(45 - captain[x].captainLogin.length - captainMedian)} │
 ├─────────────────────────────────────────────┤`;
       for (let i = 0; i < captain[x].members.length; i++) {
         returnString += `
-│         Members: ${captain[x].members[i].userLogin.padEnd(28)} │\n`;
+│         Members: ${captain[x].members[i].userLogin.padEnd(26)} │\n`;
         if (i != captain[x].members.length - 1) {
           returnString += `├─────────────────────────────────────────────┤`;
         } else {
