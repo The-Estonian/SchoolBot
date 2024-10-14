@@ -27,7 +27,7 @@ const parseSprintData = (data) => {
     let captain = data?.data?.event_by_pk?.groups;
 
     for (let x = 0; x < captain.length; x++) {
-      let captainMedian = 45 - Math.floor(captain[x].captainLogin.length);
+      let captainMedian = Math.floor((45 - captain[x].captainLogin.length) / 2);
       returnString += `
 │ Captain: ${captain[x].captainLogin
         .padStart(captainMedian)
@@ -40,7 +40,7 @@ const parseSprintData = (data) => {
           returnString += `├─────────────────────────────────────────────┤`;
         } else {
           returnString += `└─────────────────────────────────────────────┘`;
-          if (captain[x] != captain.length) {
+          if (x != captain.length - 1) {
             returnString += '\n┌─────────────────────────────────────────────┐';
           }
         }
