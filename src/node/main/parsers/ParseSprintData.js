@@ -22,9 +22,18 @@ const parseSprintData = (data) => {
       returnString += element.id + '\n';
     });
   }
-  data?.data?.event_by_pk?.usersRelation.forEach((element) => {
-    returnString += element.userLogin + ': level ' + element.level + '\n';
-  });
+  if (data?.data?.event_by_pk?.groups.length > 0) {
+    data?.data?.event_by_pk?.groups.forEach((captain) => {
+      returnString += 'Captain: ' + captain.captainLogin + '\n';
+      captain.members.forEach((member) => {
+        returnString += '   Members: ' + member.userLogin + '\n';
+      });
+    });
+  } else {
+    data?.data?.event_by_pk?.usersRelation.forEach((element) => {
+      returnString += element.userLogin + ': level ' + element.level + '\n';
+    });
+  }
   return returnString;
 };
 

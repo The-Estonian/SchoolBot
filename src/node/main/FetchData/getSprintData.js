@@ -22,6 +22,12 @@ const getSprintData = async (token, eventId) => {
       userLogin
       level
     }
+    groups{
+      captainLogin
+      members{
+        userLogin
+      }
+    }
   }
 }`,
       }),
