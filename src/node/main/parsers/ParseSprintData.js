@@ -14,7 +14,7 @@ const parseSprintData = (data) => {
   const date = new Date(data?.data?.event_by_pk?.startAt);
   const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
   returnString += `
-    ${capitalizeFirstLetter(
+    Project: ${capitalizeFirstLetter(
       returnData
     )}  Starting at: ${date.toLocaleDateString('en-GB', options)}\n`;
   if (data?.data?.event_by_pk?.usersRelation.length == 0) {

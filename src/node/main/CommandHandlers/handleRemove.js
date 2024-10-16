@@ -13,7 +13,7 @@ const handleRemove = async (message, args) => {
       return;
     }
     if (messageAmount > 100) messageAmount = 100;
-    await message.channel.bulkDelete(messageAmount + 1, true);
+    await message.channel.bulkDelete(messageAmount, true);
     replyAndClean(message, `Removed last ${messageAmount} messages!`);
   } catch (error) {
     replyAndClean(message, 'Error removing rows');
