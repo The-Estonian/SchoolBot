@@ -16,7 +16,7 @@ import { commandLogging } from '../Logging/logError.js';
 // init token and constants
 const token = await fetchToken();
 
-const handleAllCommands = (message) => {
+const handleAllCommands = async (message) => {
   const args = message.content.slice(1).trim().split(/ +/);
   const command = args.shift().toLowerCase();
   commandLogging(message.author.tag, command);
@@ -35,7 +35,12 @@ const handleAllCommands = (message) => {
 
     // sprint
     case 'sprint':
-      handleSprint(message, args, token);
+      try {
+        handleSprint(message, args, token);
+      } catch (err) {
+        console.log('Renewing key');
+        token = await fetchToken();
+      }
       break;
 
     case 'userid':
