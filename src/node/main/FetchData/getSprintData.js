@@ -33,6 +33,8 @@ const getSprintData = async (token, eventId) => {
       }),
     }
   );
-  return await response.json();
+  const rep = await response.json();
+  console.log('Logging Response for Sprint: ', rep);
+  return rep;
 };
 export default getSprintData;
