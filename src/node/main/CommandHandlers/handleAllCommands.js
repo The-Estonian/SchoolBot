@@ -14,7 +14,7 @@ import fetchToken from '../AuthToken/authToken.js';
 import { commandLogging } from '../Logging/logError.js';
 
 // init token and constants
-const token = await fetchToken();
+let token = await fetchToken();
 setInterval(async () => {
   token = await fetchToken();
   console.log('Token renewed');
