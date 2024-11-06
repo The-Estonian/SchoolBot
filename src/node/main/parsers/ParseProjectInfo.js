@@ -28,7 +28,10 @@ const parseProjectInfo = (data, projectName) => {
     datastream.attrs.validations[0].required *
     datastream.attrs.validations[0].ratio
   }`;
-  let projLanguage = datastream?.attrs?.language;
+  let projLanguage = '';
+  if (datastream?.attrs?.language) {
+    projLanguage = datastream.attrs.language;
+  }
   let spacer = Math.max(
     projLabel.length,
     groupMax.toString().length,
@@ -37,8 +40,7 @@ const parseProjectInfo = (data, projectName) => {
     expGained.length,
     auditorRefresh.length,
     prevProj.length,
-    auditReq.length,
-    projLanguage?.length
+    auditReq.length
   );
   if (spacer < 15) spacer = 15;
   let strecher = 0;
@@ -76,15 +78,8 @@ const parseProjectInfo = (data, projectName) => {
 ├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
 │ Auditor refresh timer:     │ ${auditorRefresh}${' '.repeat(
     spacer - auditorRefresh.length
-  )}│
-${
-  projLanguage
-    ? `├────────────────────────────┼────────────────"+'─'.repeat(strecher)}┤
-│ Language requirement:      │ ${projLanguage}${' '.repeat(
-        spacer - projLanguage.length
-      )}│`
-    : ''
-}
+  )}│${projLanguage.length != 0? `├────────────────────────────┼────────────────"+'─'.repeat(strecher)}┤
+│ Language requirement:      │ ${projLanguage}${' '.repeat(spacer - projLanguage.length)}│`: ''}
 └────────────────────────────┴────────────────${'─'.repeat(strecher)}┘\`\`\``;
   return parseResponse;
 };
