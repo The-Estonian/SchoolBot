@@ -8,7 +8,8 @@ const parseProjectInfo = (data, projectName) => {
   let groupMin = datastream.attrs.groupMin;
   let auditRatio = datastream.attrs.requiredAuditRatio;
   let expGained = datastream.attrs.baseXp / 1000 + 'kb';
-  let auditorRefresh = datastream.attrs.validations[0].delay/60/24+" days";
+  let auditorRefresh =
+    datastream.attrs.validations[0].delay / 60 / 24 + ' days';
   let prevProj;
   if (datastream.attrs.displayedName == 'go-reloaded') {
     prevProj = 'Go Piscine';
@@ -76,10 +77,14 @@ const parseProjectInfo = (data, projectName) => {
 │ Auditor refresh timer:     │ ${auditorRefresh}${' '.repeat(
     spacer - auditorRefresh.length
   )}│
-${projLanguage?"├────────────────────────────┼────────────────"+'─'.repeat(strecher)}┤
+${
+  projLanguage
+    ? `├────────────────────────────┼────────────────"+'─'.repeat(strecher)}┤
 │ Language requirement:      │ ${projLanguage}${' '.repeat(
-    spacer - projLanguage.length
-  )}│":""}
+        spacer - projLanguage.length
+      )}│`
+    : ''
+}
 └────────────────────────────┴────────────────${'─'.repeat(strecher)}┘\`\`\``;
   return parseResponse;
 };
