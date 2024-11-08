@@ -76,17 +76,9 @@ const parseProjectInfo = (data, projectName) => {
     spacer - auditReq.length
   )}│
 ├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
-│ Auditor refresh timer:     │ ${auditorRefresh}${' '.repeat(
-    spacer - auditorRefresh.length
-  )}│
-  ${
-    projLanguage.length != 0
-      ? `├────────────────────────────┼────────────────"+'─'.repeat(strecher)}┤
-│ Language requirement:      │ ${projLanguage}${' '.repeat(
-          spacer - projLanguage.length
-        )}│`
-      : ''
-  }
+│ Auditor refresh timer:     │ ${auditorRefresh}${' '.repeat(spacer - auditorRefresh.length)}│${projLanguage.length != 0? `
+├────────────────────────────┼────────────────${'─'.repeat(strecher)}┤
+│ Language requirement:      │ ${projLanguage}${' '.repeat(spacer - projLanguage.length)}│`: ''}
 └────────────────────────────┴────────────────${'─'.repeat(strecher)}┘\`\`\``;
   return parseResponse;
 };
