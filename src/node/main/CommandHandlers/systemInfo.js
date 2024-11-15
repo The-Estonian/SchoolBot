@@ -11,9 +11,16 @@ const handleSystemInfo = async (message, args) => {
     const totalMem = (mem.total / 1024 ** 3).toFixed(2);
     const usedMem = ((mem.total - mem.available) / 1024 ** 3).toFixed(2);
 
-    let returnString = `**System Metrics:**
-      - **CPU Usage**: ${cpuUsage}%
-      - **Memory Usage**: ${usedMem} GB / ${totalMem} GB`;
+    let returnString = `
+┌───────────────────────────────────┐
+│        System Metrics             │
+├───────────────┬───────────────────┤
+│ CPU Usage:    │ ${cpuUsage.padStart(5).padEnd(20)}%      │
+├───────────────┼───────────────────┤
+│ Memory Usage: │ ${usedMem.padStart(5).padEnd(10)} GB / ${totalMem
+      .padStart(5)
+      .padEnd(10)} GB  │
+└───────────────────────────────────┘`;
 
     replyAndClean(message, `\`\`\`${returnString}\`\`\``);
   } catch (error) {
