@@ -41,7 +41,7 @@ const parseUserIdData = (data) => {
     spacer - userData.canBeAuditor.toString().length
   )}│
 ├──────────────────────┴──────────────${'─'.repeat(strecher)}┤
-│   Gained levels in modules:   ${' '.repeat(strecher)}│
+│       Gained levels in modules:     ${' '.repeat(strecher)}│
 ├─────────────────────────────────────${'─'.repeat(strecher)}┤\n`;
   let levelSpacer = 30;
   userData.events.forEach((row) => {
@@ -58,11 +58,11 @@ const parseUserIdData = (data) => {
       }
       returnData += `│ ${path} ${' '.repeat(
         levelSpacer - compileString.length
-      )}level: ${row.level}   │\n`;
+      )}level:    ${row.level}      │\n`;
     }
   });
 
-  returnData += `└───────────────────────────────┘\`\`\``;
+  returnData += `└─────────────────────────────────────┘\`\`\``;
 
   return returnData;
 };
