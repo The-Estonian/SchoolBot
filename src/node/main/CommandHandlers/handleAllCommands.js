@@ -11,6 +11,7 @@ import handleFirstName from './handleFirstName.js';
 import handleLastName from './handleLastName.js';
 import handleProject from './handleProject.js';
 import fetchToken from '../AuthToken/authToken.js';
+import handleSystemInfo from './systemInfo.js';
 import { commandLogging } from '../Logging/logError.js';
 
 // init token and constants
@@ -62,11 +63,8 @@ const handleAllCommands = async (message) => {
       break;
 
     // kiitus
-    case 'kiitus':
-      let name = args.shift();
-      let kiitus = `
-${name} sa oled nii tubli! ;)`;
-      replyAndClean(message, `\`\`\`${kiitus}\`\`\``);
+    case 'alive?':
+      handleSystemInfo(message);
       break;
 
     // help

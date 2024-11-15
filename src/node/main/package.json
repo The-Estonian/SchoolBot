@@ -15,7 +15,8 @@
     "aws-sdk": "^2.1691.0",
     "bot": "file:",
     "discord.js": "^14.14.1",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "systeminformation": "^5.23.5"
   },
   "type": "module",
   "devDependencies": {
