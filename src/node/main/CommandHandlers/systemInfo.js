@@ -1,4 +1,4 @@
-const si = require('systeminformation');
+import si from 'systeminformation';
 import replyAndClean from '../CleanAfter/replyAndClean.js';
 import { logErrorToFile } from '../Logging/logError.js';
 
