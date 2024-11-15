@@ -14,6 +14,8 @@ const getUserIdData = async (token, userId) => {
     login
     firstName
     lastName
+    canAccessPlatform
+    canBeAuditor
     events{
       level
       event{
