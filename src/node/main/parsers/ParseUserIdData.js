@@ -7,8 +7,8 @@ const parseUserIdData = (data) => {
     userData.login.length,
     userData.firstName.length,
     userData.lastName.length,
-    userData.canAccessPlatform.length,
-    userData.canBeAuditor.length
+    userData.canAccessPlatform.toString().length,
+    userData.canBeAuditor.toString().length
   );
   if (spacer < 13) spacer = 13;
   let strecher = 0;
@@ -34,11 +34,11 @@ const parseUserIdData = (data) => {
   )}│
 ├──────────────────────┼──────────────${'─'.repeat(strecher)}┤
 │ Can access platform: │ ${userData.canAccessPlatform}${' '.repeat(
-    spacer - userData.lastName.length
+    spacer - userData.canAccessPlatform.toString().length
   )}│
 ├──────────────────────┼──────────────${'─'.repeat(strecher)}┤
 │ Can be Auditor:      │ ${userData.canBeAuditor}${' '.repeat(
-    spacer - userData.lastName.length
+    spacer - userData.canBeAuditor.toString().length
   )}│
 ├──────────────────────┴──────────────${'─'.repeat(strecher)}┤
 │   Gained levels in modules:   ${' '.repeat(strecher)}│
