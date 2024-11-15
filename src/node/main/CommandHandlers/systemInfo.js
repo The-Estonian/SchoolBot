@@ -15,11 +15,11 @@ const handleSystemInfo = async (message, args) => {
 ┌───────────────────────────────────┐
 │        System Metrics             │
 ├───────────────┬───────────────────┤
-│ CPU Usage:    │ ${cpuUsage.padStart(5).padEnd(20)}%      │
+│ CPU Usage:    │ ${cpuUsage.padStart(5).padEnd(12)}%      │
 ├───────────────┼───────────────────┤
-│ Memory Usage: │ ${usedMem.padStart(5).padEnd(10)} GB / ${totalMem
+│ Memory Usage: │ ${usedMem.padStart(5)} GB / ${totalMem
       .padStart(5)
-      .padEnd(10)} GB  │
+      .padEnd(12)} GB  │
 └───────────────────────────────────┘`;
 
     replyAndClean(message, `\`\`\`${returnString}\`\`\``);
