@@ -6,7 +6,9 @@ const parseUserIdData = (data) => {
     userData.id.toString().length,
     userData.login.length,
     userData.firstName.length,
-    userData.lastName.length
+    userData.lastName.length,
+    userData.canAccessPlatform.length,
+    userData.canBeAuditor.length
   );
   if (spacer < 13) spacer = 13;
   let strecher = 0;
@@ -14,25 +16,33 @@ const parseUserIdData = (data) => {
 
   let returnData = `\`\`\`
         Received user data:
-┌────────────────┬──────────────${'─'.repeat(strecher)}┐
-│ ID:            │ ${userData.id}${' '.repeat(
+┌──────────────────────┬──────────────${'─'.repeat(strecher)}┐
+│ ID:                  │ ${userData.id}${' '.repeat(
     spacer - userData.id.toString().length
   )}│
-├────────────────┼──────────────${'─'.repeat(strecher)}┤
-│ Login:         │ ${userData.login}${' '.repeat(
+├──────────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ Login:               │ ${userData.login}${' '.repeat(
     spacer - userData.login.length
   )}│
-├────────────────┼──────────────${'─'.repeat(strecher)}┤
-│ First Name:    │ ${userData.firstName}${' '.repeat(
+├──────────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ First Name:          │ ${userData.firstName}${' '.repeat(
     spacer - userData.firstName.length
   )}│
-├────────────────┼──────────────${'─'.repeat(strecher)}┤
-│ Last Name:     │ ${userData.lastName}${' '.repeat(
+├──────────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ Last Name:           │ ${userData.lastName}${' '.repeat(
     spacer - userData.lastName.length
   )}│
-├────────────────┴──────────────${'─'.repeat(strecher)}┤
+├──────────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ Can access platform: │ ${userData.canAccessPlatform}${' '.repeat(
+    spacer - userData.lastName.length
+  )}│
+├──────────────────────┼──────────────${'─'.repeat(strecher)}┤
+│ Can be Auditor:      │ ${userData.canBeAuditor}${' '.repeat(
+    spacer - userData.lastName.length
+  )}│
+├──────────────────────┴──────────────${'─'.repeat(strecher)}┤
 │   Gained levels in modules:   ${' '.repeat(strecher)}│
-├───────────────────────────────${'─'.repeat(strecher)}┤\n`;
+├─────────────────────────────────────${'─'.repeat(strecher)}┤\n`;
   let levelSpacer = 30;
   userData.events.forEach((row) => {
     if (row.level > 0) {
