@@ -53,7 +53,7 @@ client.on('guildMemberRemove', async (member) => {
   const channel = await client.channels.fetch('1257316921565646878');
   await userLogging(member.user.tag, 'left-server');
   channel.send(
-    `\`\`\`Ahh great, someone left! Let's see now... AHA ${member.user.tag} you scoundrel, let me see where i put your credentials... What was the site again, Autolaen24.ee right?\`\`\``
+    `\`\`\`Ahh great, someone left! Let's see now... AHA ${member.user.tag} with user id of ${member.id} you scoundrel, let me see where i put your credentials... What was the site again, Autolaen24.ee right?\`\`\``
   );
 });
 
@@ -63,7 +63,7 @@ client.on('guildMemberAdd', async (member) => {
 
   await userLogging(member.user.tag, 'joined-server');
   channel.send(
-    `Welcome to the server, <@${member.id}> ! You are welcome to use the bot if you need, just let me <@552485072880533507> know!`
+    `Welcome to the server, <@${member.id}> ! You are welcome to use the bot if you need, just let <@552485072880533507> know!`
   );
 });
 
