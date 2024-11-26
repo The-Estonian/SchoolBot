@@ -63,7 +63,7 @@ client.on('guildMemberAdd', async (member) => {
 
   await userLogging(member.user.tag, 'joined-server');
   channel.send(
-    `\`\`\`Welcome to the server, @${member.user.tag} ! Please give me a second while i fetch your credentials to be saved for later. Toodeloo\`\`\``
+    `Welcome to the server, <@${member.id}> ! You are welcome to use the bot if you need, just let me <@552485072880533507> know!`
   );
 });
 
