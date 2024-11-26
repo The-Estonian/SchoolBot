@@ -116,7 +116,7 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
 // Calculator PC
 resource "aws_instance" "discord_bot" {
   ami                    = "ami-04dfd853d88e818e8"
-  instance_type          = "t3.nano"
+  instance_type          = "t3.micro"
   subnet_id              = aws_subnet.public_subnet.id
   key_name               = aws_key_pair.discord_bot.key_name
   vpc_security_group_ids = [aws_security_group.discord_bot_sg.id]
