@@ -10,6 +10,7 @@ import handleUserId from './handleUserId.js';
 import handleFirstName from './handleFirstName.js';
 import handleLastName from './handleLastName.js';
 import handleProject from './handleProject.js';
+import handleWork from './handleWork.js';
 import fetchToken from '../AuthToken/authToken.js';
 import handleSystemInfo from './systemInfo.js';
 import { commandLogging } from '../Logging/logError.js';
@@ -70,6 +71,10 @@ const handleAllCommands = async (message) => {
     // help
     case 'help':
       replyAndClean(message, `\`\`\`${helpInfo()}\`\`\``);
+      break;
+
+    case 'work':
+      handleWork(message);
       break;
   }
 };

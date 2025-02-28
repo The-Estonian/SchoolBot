@@ -1,6 +1,6 @@
-import AWS from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-const s3 = new AWS.S3();
+const s3 = new S3Client({ region: 'eu-central-1' });
 
 export const logErrorToFile = async (error) => {
   const timeStamp = new Date().toISOString();
@@ -14,8 +14,8 @@ export const logErrorToFile = async (error) => {
   };
 
   try {
-    // Upload the error message directly to S3
-    await s3.putObject(params).promise();
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
     console.log('Error log uploaded to S3 successfully.');
   } catch (s3Err) {
     console.error('Failed to upload error log to S3:', s3Err);
@@ -36,7 +36,8 @@ export const userLogging = async (userTag, eventType) => {
   };
 
   try {
-    await s3.putObject(params).promise();
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
     console.log('Error log uploaded to S3 successfully.');
   } catch (s3Err) {
     console.error('Failed to upload error log to S3:', s3Err);
@@ -57,7 +58,8 @@ export const commandLogging = async (userTag, command) => {
   };
 
   try {
-    await s3.putObject(params).promise();
+    const command = new PutObjectCommand(params);
+    await s3.send(command);
     console.log('Error log uploaded to S3 successfully.');
   } catch (s3Err) {
     console.error('Failed to upload error log to S3:', s3Err);
