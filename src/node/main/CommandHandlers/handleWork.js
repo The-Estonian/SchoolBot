@@ -13,6 +13,7 @@ const handleWork = async (message) => {
   const collection = db.collection('jobs');
   let jobTitles = [];
   await collection.insertOne({ id: '123', title: 'Software Engineer' });
+  replyAndClean(message, 'Job inserted into database.');
   console.log('Job inserted!');
   // try {
   //   const response = await axios.get(url);
