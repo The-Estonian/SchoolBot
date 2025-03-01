@@ -34,5 +34,5 @@ jobs:
           sudo docker container rm bot
           sudo docker image rm estonian/discord-bot:latest
           sudo docker build -t estonian/discord-bot:latest .
-          sudo docker run -e DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}} -e LOGIN=${{secrets.LOGIN}} -e PASSWORD=${{secrets.PASSWORD}} -e GIT_COMMIT=${{ env.GIT_COMMIT }} -d --name bot estonian/discord-bot:latest 
+          sudo docker run -e DISCORD_TOKEN=${{secrets.DISCORD_TOKEN}} -e LOGIN=${{secrets.LOGIN}} -e PASSWORD=${{secrets.PASSWORD}} -e MONGODB_CONNECTION=${{secrets.MONGODB_CONNECTION}} -e GIT_COMMIT=${{ env.GIT_COMMIT }} -d --name bot estonian/discord-bot:latest 
           ENDSSH
