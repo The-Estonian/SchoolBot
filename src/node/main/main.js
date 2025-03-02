@@ -38,7 +38,7 @@ client.on('ready', () => {
     );
   } else {
     channel.send(
-      `\`\`\`Social-manager running on local development server!\`\`\``
+      `\`\`\`Development server online.\`\`\``
     );
   }
 });

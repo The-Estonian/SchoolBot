@@ -73,8 +73,15 @@ const handleAllCommands = async (message) => {
       replyAndClean(message, `\`\`\`${helpInfo()}\`\`\``);
       break;
 
+    // handle job posts
     case 'work':
       handleWork(message);
+      break;
+
+    // shut down production
+    case 'shutdown':
+      if (message.author.id != '552485072880533507') return;
+      handleShutdown(message);
       break;
   }
 };
