@@ -65,7 +65,7 @@ const handleAllCommands = async (message) => {
       break;
 
     // kiitus
-    case 'alive?':
+    case 'status':
       handleSystemInfo(message);
       break;
 
