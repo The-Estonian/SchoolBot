@@ -15,7 +15,7 @@ const handleSystemInfo = async (message, args) => {
 ┌───────────────────────────────────┐
 │        System Metrics             │
 ├───────────────┬───────────────────┤
-│ CPU Usage:    │ ${cpuUsage.toString().padStart(1) + '%'.padEnd(13)}    │
+│ CPU Usage:    │ ${cpuUsage.toString().padStart(1) + '%'.padEnd(12)}    │
 ├───────────────┼───────────────────┤
 │ Memory Usage: │ ${usedMem.padStart(3)}GB / ${totalMem + 'GB'.padEnd(5)}│
 └───────────────────────────────────┘`;
