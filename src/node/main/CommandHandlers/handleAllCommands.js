@@ -13,6 +13,7 @@ import handleProject from './handleProject.js';
 import handleWork from './handleWork.js';
 import fetchToken from '../AuthToken/authToken.js';
 import handleSystemInfo from './systemInfo.js';
+import handleShutdown from './handleShutdown.js';
 import { commandLogging } from '../Logging/logError.js';
 
 // init token and constants
