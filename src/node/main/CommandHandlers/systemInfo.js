@@ -7,7 +7,7 @@ const handleSystemInfo = async (message, args) => {
     const cpuLoad = await si.currentLoad();
     const mem = await si.mem();
 
-    const cpuUsage = cpuLoad.currentLoad.toFixed(2) * 100;
+    const cpuUsage = Math.round(cpuLoad.currentLoad * 100);
     const totalMem = (mem.total / 1024 ** 3).toFixed(2);
     const usedMem = ((mem.total - mem.available) / 1024 ** 3).toFixed(2);
 
@@ -15,7 +15,7 @@ const handleSystemInfo = async (message, args) => {
 ┌───────────────────────────────────┐
 │        System Metrics             │
 ├───────────────┬───────────────────┤
-│ CPU Usage:    │ ${cpuUsage.padStart(3) + '%'.padEnd(10)}    │
+│ CPU Usage:    │ ${cpuUsage.toString().padStart(3) + '%'.padEnd(10)}    │
 ├───────────────┼───────────────────┤
 │ Memory Usage: │ ${usedMem.padStart(3)}GB / ${totalMem + 'GB'.padEnd(5)}│
 └───────────────────────────────────┘`;
