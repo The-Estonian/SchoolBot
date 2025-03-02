@@ -28,18 +28,6 @@ const handleAllCommands = async (message) => {
   const command = args.shift().toLowerCase();
   commandLogging(message.author.tag, command);
   switch (command) {
-    // Remove x amount of messages from channel
-    case 'remove':
-      if (message.author.id != '552485072880533507') return;
-      handleRemove(message, args);
-      break;
-
-    // Create an error to test server crash logging to AWS S3 bucket
-    case 'crash':
-      if (message.author.id != '552485072880533507') return;
-      handleCreateCrash(message);
-      break;
-
     // sprint
     case 'sprint':
       handleSprint(message, args, token);
@@ -64,25 +52,41 @@ const handleAllCommands = async (message) => {
       handleProject(message, args);
       break;
 
-    // kiitus
-    case 'status':
-      handleSystemInfo(message);
-      break;
-
     // help
     case 'help':
       replyAndClean(message, `\`\`\`${helpInfo()}\`\`\``);
       break;
 
-    // handle job posts
+    // Admin reserved commands
+
+    // handle job posts : WIP
     case 'work':
+      if (message.author.id != '552485072880533507') return;
       handleWork(message);
+      break;
+
+    // Remove x amount of messages from channel
+    case 'remove':
+      if (message.author.id != '552485072880533507') return;
+      handleRemove(message, args);
+      break;
+
+    // system status
+    case 'status':
+      if (message.author.id != '552485072880533507') return;
+      handleSystemInfo(message);
       break;
 
     // shut down production
     case 'shutdown':
       if (message.author.id != '552485072880533507') return;
       handleShutdown(message);
+      break;
+
+    // Create an error to test server crash logging to AWS S3 bucket
+    case 'crash':
+      if (message.author.id != '552485072880533507') return;
+      handleCreateCrash(message);
       break;
   }
 };
