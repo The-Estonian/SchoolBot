@@ -29,9 +29,9 @@ NB: User auth needed for the project to work.
 
 ```bash
 ┌───────────────────────────────────────────────────────────────────────────┐
-│  Super Mega ULTRA Bot Version: version filled automatically               │
+│       Super Mega ULTRA Bot Version: version filled automatically          │
 ├─────────────────────────────┬─────────────────────────────────────────────┤
-│ Project status:             │ WIP                                         │
+│ !help                       │ show this list                              │
 ├─────────────────────────────┼─────────────────────────────────────────────┤
 │ !sprint <id>                │ to get the current sprinters data           │
 ├─────────────────────────────┼─────────────────────────────────────────────┤
@@ -44,10 +44,16 @@ NB: User auth needed for the project to work.
 │ !lastname <name>            │ to get all users with the given last name   │
 ├─────────────────────────────┼─────────────────────────────────────────────┤
 │ !project <name>             │ to get project info                         │
+├─────────────────────────────┴─────────────────────────────────────────────┤
+│                       Admin reserved commands                             │
+├─────────────────────────────┬─────────────────────────────────────────────┤
+│ !crash                      │ Implements server crash for testing         │
 ├─────────────────────────────┼─────────────────────────────────────────────┤
 │ !remove <n>                 │ to remove n amount of messages from channel │
 ├─────────────────────────────┼─────────────────────────────────────────────┤
-│ !crash                      │ Implements server crash for testing         │
+│ !status                     │ show system RAM/CPU utilization             │
+├─────────────────────────────┼─────────────────────────────────────────────┤
+│ !shutdown                   │ exit program with process.exit(0)           │
 ├─────────────────────────────┴─────────────────────────────────────────────┤
 │        NB: Bot will delete his response and your command in 30s           │
 └───────────────────────────────────────────────────────────────────────────┘

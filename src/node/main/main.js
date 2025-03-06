@@ -37,9 +37,7 @@ client.on('ready', () => {
       }\`\`\``
     );
   } else {
-    channel.send(
-      `\`\`\`Development server online.\`\`\``
-    );
+    channel.send(`\`\`\`Development server online.\`\`\``);
   }
 });
 
@@ -58,21 +56,51 @@ client.on('messageCreate', async (message) => {
 // Client leaves the server
 client.on('guildMemberRemove', async (member) => {
   const channel = await client.channels.fetch('1292497677250072588');
+  console.log('User left!');
+
   await userLogging(member.user.tag, 'left-server');
-  channel.send(
-    `\`\`\`Ahh great, someone left! Let's see now... AHA ${member.user.tag} with user id of ${member.id} you scoundrel, let me see where i put your credentials... What was the site again, Autolaen24.ee right?\`\`\``
-  );
+  channel.send(`User <@${member.id}> ${member.user.tag}! Left the server!`);
 });
 
 // Client joins the server
 client.on('guildMemberAdd', async (member) => {
   const channel = await client.channels.fetch('1292497677250072588');
-  console.log(channel);
 
   await userLogging(member.user.tag, 'joined-server');
-  channel.send(
-    `Welcome to the server, <@${member.id}> ! You are welcome to use the bot if you need, just let <@552485072880533507> know!`
+
+  channel.send(`New user joined the server: <@${member.id}>!`);
+
+  const visitorAreaCategory = member.guild.channels.cache.find(
+    (category) =>
+      category.name === 'VISITOR-AREA' && category.type === 'GUILD_CATEGORY'
   );
+
+  if (visitorAreaCategory) {
+    const generalChannel = visitorAreaCategory.children.find(
+      (channel) => channel.name === 'general' && channel.type === 'GUILD_TEXT'
+    );
+    if (generalChannel) {
+      const visitorRole = member.guild.roles.cache.find(
+        (role) => role.name === 'Visitor'
+      );
+      if (visitorRole) {
+        await member.roles.add(visitorRole);
+        channel.send(
+          `${member.user.tag} was assigned the @visitor role automatically`
+        );
+      }
+    } else {
+      const schoolMember = member.guild.roles.cache.find(
+        (role) => role.name === 'K/J'
+      );
+      if (schoolMember) {
+        await member.roles.add(schoolMember);
+        channel.send(
+          `${member.user.tag} was assigned the @K/J role automatically`
+        );
+      }
+    }
+  }
 });
 
 client.login(process.env.DISCORD_TOKEN);
