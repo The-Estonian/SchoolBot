@@ -3,7 +3,9 @@ import replyAndClean from '../CleanAfter/replyAndClean.js';
 
 const handleShutdown = async (message) => {
   replyAndClean(message, 'Shutting down production on: AWS EC2 Docker');
-  process.exit(0);
+  setTimeout(() => {
+    process.exit(0);
+  }, 3000);
 };
 
 export default handleShutdown;
